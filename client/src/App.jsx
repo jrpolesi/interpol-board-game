@@ -1,6 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import io from 'socket.io-client'
 
 function App() {
+  useEffect(() => {
+    const socket = io('/')
+    socket.on('connect', () => {
+      console.log(socket)
+    })
+  }, [])
   return (
     <div className="App">
       
