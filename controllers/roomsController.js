@@ -2,6 +2,7 @@ const { Room, User } = require('../models/roomModels')
 
 const roomsControllers = {
   rooms: {},
+  
   new: function (req, res) {
     const maxUsers = req.body.maxUsers || 5
     const newRoom = new Room(maxUsers)
@@ -9,10 +10,12 @@ const roomsControllers = {
     this.rooms[roomId] = newRoom
     res.send(roomId)
   },
+  
   delete: function (req, res) {
     const idToDelete = req.body.roomId
     delete this.rooms[idToDelete]
   },
+  
   hasRoom: function (req, res) {
     const { roomId } = req.params
     if (this.rooms[roomId]) {
@@ -21,14 +24,17 @@ const roomsControllers = {
       res.send({ exist: false })
     }
   },
+  
   isEveryoneReady: function (roomId) {
     this.rooms[roomId].isReady = this.rooms[roomId].users.every(({ isReady }) => isReady)
     return this.rooms[roomId].isReady
   },
+  
   addUserRoom: function (roomId, userId) {
     const user = new User(userId)
     this.rooms[roomId].users.push(user)
   },
+  
   deleteUserRoom: function (roomId, userId) {
     const filteredUsers = this.rooms[roomId].users.filter(({ id }) => id !== userId)
     this.rooms[roomId].users = filteredUsers

@@ -11,6 +11,9 @@ const roomsController = require('./controllers/roomsController')
 const roomRoutes = require('./routes/roomRoutes')
 app.use('/rooms', roomRoutes)
 
+const gameRoutes = require('./routes/gameRoutes')
+app.use('/game', gameRoutes)
+
 const { Server } = require('socket.io')
 const { rooms } = require('./controllers/roomsController')
 // Quando vamos conectar com alguma pagina fora do proprio server, nós devemos configurar o cors pelo prorio socket, e não pelo express
@@ -45,17 +48,22 @@ io.on('connection', (socket) => {
 
   socket.on('disconnecting', () => {
     const roomId = [...socket.rooms].find((roomId) => roomId !== socket.id)
-    if(roomId){
-      roomsController.deleteUserRoom(roomId, socket.id)      
+    if (roomId) {
+      roomsController.deleteUserRoom(roomId, socket.id)
     }
     // console.log(roomsController.rooms[roomId])
   })
 
   socket.on('am-i-ready', (roomId, isReady) => {
     // console.log(isReady)
-    const user = roomsController.rooms[roomId].users.find(({id}) => id === socket.id)
+    const user = roomsController.rooms[roomId].users.find(({ id }) => id === socket.id)
     user.isReady = isReady
     io.to(roomId).emit('are-everyone-ready', roomsController.isEveryoneReady(roomId))
+  })
+
+  socket.on('player-change-preferences', (roomId, changes) =>{
+    console.log(changes)
+    io.to(roomId).emit('player-change-preferences', 'newPreferences')
   })
 })
 
