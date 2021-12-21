@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import io from 'socket.io-client'
+import { Home } from './pages/Home'
 
 function App() {
   useEffect(() => {
@@ -10,7 +11,7 @@ function App() {
   }, [])
   return (
     <div className="App">
-      
+      <Home />
     </div>
   );
 }

@@ -6,8 +6,8 @@ const port = 3000
 const cors = require('cors')
 app.use(cors())
 
-// const roomRoutes = require('./routes/roomRoutes')
-// app.use('/rooms', roomRoutes)
+const roomRoutes = require('./routes/roomRoutes')
+app.use('/rooms', roomRoutes)
 
 const { Server } = require('socket.io')
 const { rooms } = require('./controllers/roomsController')
