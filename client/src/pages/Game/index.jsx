@@ -1,10 +1,12 @@
 import React, { useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { FormNewPlayer } from '../../components/FormNewPlayer'
 import { ConnectionContext } from '../../ConnectionContext'
+import { GameProvider } from '../../Contexts/GameContext'
 
 export function Game() {
   const roomId = useParams().roomId
-  const { setRoom, amIReady, setAmIReady } = useContext(ConnectionContext)
+  const { setRoom, setAmIReady } = useContext(ConnectionContext)
   useEffect(() => {
     
     async function checkRooms() {
@@ -30,9 +32,8 @@ export function Game() {
   }
 
   return (
-    <>
-      <div>toooop</div>
-      <button onClick={toggleAmIReady}>Estou Pronto</button>
-    </>
+    <GameProvider>
+      <FormNewPlayer />
+    </GameProvider>
   )
 }
