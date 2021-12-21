@@ -8,11 +8,15 @@ function ConnectionProvider(props) {
   const [room, setRoom] = useState(null)
   const [amIReady, setAmIReady] = useState(false)
   const [areEveryoneReady, setAreEveryoneReady] = useState(false)
+  const [preferencesAvailable, setPreferencesAvailable] = useState({type:[], color:[]})
 
   useEffect(() => {
     if (room) {
       socket.emit('join', room, (err) => {
         if (err) console.log(err)
+      })
+      socket.on('preferencesAvailable', (preferences) => {
+        setPreferencesAvailable(preferences)
       })
       socket.on('are-everyone-ready', (areReady) => {
         console.log(areReady)
@@ -33,7 +37,7 @@ function ConnectionProvider(props) {
     }
   }, [room, socket, amIReady])
 
-  const values = { socket, setSocket, room, setRoom, amIReady, setAmIReady, areEveryoneReady, setAreEveryoneReady }
+  const values = { socket, setSocket, room, setRoom, amIReady, setAmIReady, areEveryoneReady, setAreEveryoneReady, preferencesAvailable, setPreferencesAvailable }
   return (
     <ConnectionContext.Provider value={values}>
       {props.children}

@@ -11,11 +11,11 @@ const roomsController = require('./controllers/roomsController')
 const roomRoutes = require('./routes/roomRoutes')
 app.use('/rooms', roomRoutes)
 
-const gameRoutes = require('./routes/gameRoutes')
-app.use('/game', gameRoutes)
+// const gameRoutes = require('./routes/gameRoutes')
+// app.use('/game', gameRoutes)
 
 const { Server } = require('socket.io')
-const { rooms } = require('./controllers/roomsController')
+
 // Quando vamos conectar com alguma pagina fora do proprio server, nós devemos configurar o cors pelo prorio socket, e não pelo express
 const io = new Server(server, {
   cors: {
@@ -24,22 +24,18 @@ const io = new Server(server, {
 })
 
 io.on('connection', (socket) => {
-  // socket.on('create', (room, callback) => {
-  //   if (!io.sockets.adapter.rooms.has(room)) {
-  //     socket.join(room)
-  //     console.log(room)
-  //   } else {
-  //     callback({ err: 'room already created' })
-  //   }
-  // })
 
   socket.on('join', (roomId, callback) => {
     const currentRoom = roomsController.rooms[roomId]
     const maxUsers = currentRoom.maxUsers
+    if(!io.sockets.adapter.rooms.has(roomId)){
+      roomsController.startGame(roomId)
+    }
     if (!io.sockets.adapter.rooms.has(roomId) || io.sockets.adapter.rooms.get(roomId).size < maxUsers) {
       socket.join(roomId)
       roomsController.addUserRoom(roomId, socket.id)
-      // console.log(io.sockets.adapter.rooms)
+      const preferences = roomsController.getGame(roomId).getPreferencesAvailable()
+      io.to(roomId).emit('preferencesAvailable', preferences)
       console.log(io.sockets.adapter.rooms.get(roomId))
     } else {
       callback({ err: 'room is full' })
@@ -51,18 +47,16 @@ io.on('connection', (socket) => {
     if (roomId) {
       roomsController.deleteUserRoom(roomId, socket.id)
     }
-    // console.log(roomsController.rooms[roomId])
   })
 
   socket.on('am-i-ready', (roomId, isReady) => {
-    // console.log(isReady)
     const user = roomsController.rooms[roomId].users.find(({ id }) => id === socket.id)
     user.isReady = isReady
     io.to(roomId).emit('are-everyone-ready', roomsController.isEveryoneReady(roomId))
   })
 
   socket.on('player-change-preferences', (roomId, changes) =>{
-    console.log(changes)
+    console.log({changes})
     io.to(roomId).emit('player-change-preferences', 'newPreferences')
   })
 })

@@ -4,9 +4,9 @@ import { ConnectionContext } from "../../ConnectionContext";
 const GameContext = createContext()
 
 function GameProvider(props) {
-  const { socket } = useContext(ConnectionContext)
+  const { socket, preferencesAvailable, setPreferencesAvailable } = useContext(ConnectionContext)
   const [players, setPlayers] = useState()
-  const [preferencesAvailable, setPreferencesAvailable] = useState({type:[], color:[]})
+ 
 
 
   useEffect(() => {
@@ -18,15 +18,6 @@ function GameProvider(props) {
     }
   }, [socket])
 
-  useEffect(() => {
-    async function getPrefencesAvailable() {
-      const res = await fetch('/game/preferencesAvailable')
-      const preferences = await res.json()
-      console.log(preferences)
-      setPreferencesAvailable(preferences)
-    }
-    getPrefencesAvailable()
-  }, [])
 
   const values = { preferencesAvailable, setPreferencesAvailable }
   return (

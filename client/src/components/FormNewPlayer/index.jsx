@@ -17,15 +17,17 @@ export function FormNewPlayer() {
   function toggleAmIReady() {
     setAmIReady((prevState) => !prevState)
   }
+  
   useEffect(() => {
+    if(preferencesAvailable.type[0]){
     setFormData({
       type: preferencesAvailable.type[0],
       color:preferencesAvailable.color[0]
-      })
-  }, [])
+      })}
+  }, [preferencesAvailable])
 
   useEffect(() => {
-    if (socket) {
+    if (socket ) {
       socket.emit('player-change-preferences', room, formData)
     }
   }, [formData])
