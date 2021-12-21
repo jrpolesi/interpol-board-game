@@ -1,17 +1,20 @@
 import React, { useEffect } from 'react'
-import io from 'socket.io-client'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { ConnectionProvider } from './ConnectionContext'
 import { Home } from './pages/Home'
+import { Game } from './pages/Game'
 
 function App() {
-  useEffect(() => {
-    const socket = io('/')
-    socket.on('connect', () => {
-      console.log(socket)
-    })
-  }, [])
   return (
     <div className="App">
-      <Home />
+      <ConnectionProvider>
+        <Router>
+          <Routes>
+            <Route path="/rooms/:roomId" element={<Game />}/>
+            <Route path="/" element={<Home />}/>
+          </Routes>
+        </Router>
+      </ConnectionProvider>
     </div>
   );
 }

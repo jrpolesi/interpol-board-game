@@ -2,9 +2,11 @@ const express = require('express')
 const app = express()
 const http = require('http')
 const server = http.createServer(app)
-const port = 3000
+const port = 3001
 const cors = require('cors')
 app.use(cors())
+
+const roomsController = require('./controllers/roomsController')
 
 const roomRoutes = require('./routes/roomRoutes')
 app.use('/rooms', roomRoutes)
@@ -19,25 +21,29 @@ const io = new Server(server, {
 })
 
 io.on('connection', (socket) => {
-  socket.on('create', (room, callback) => {
-    if (!io.sockets.adapter.rooms.has(room)) {
-      socket.join(room)
-    } else {
-      callback({ err: 'room already created' })
-    }
-  })
+  // socket.on('create', (room, callback) => {
+  //   if (!io.sockets.adapter.rooms.has(room)) {
+  //     socket.join(room)
+  //     console.log(room)
+  //   } else {
+  //     callback({ err: 'room already created' })
+  //   }
+  // })
 
   socket.on('join', (room, callback) => {
-    console.log(io.sockets.adapter.rooms.get(room))
-    if (io.sockets.adapter.rooms.has(room)) {
-      if (io.sockets.adapter.rooms.has(room) && io.sockets.adapter.rooms.get(room).size < 5) {
-        socket.join(room)
-      } else {
-        callback({ err: 'room is full' })
-      }
+    if (!io.sockets.adapter.rooms.has(room) || io.sockets.adapter.rooms.get(room).size < 5) {
+      socket.join(room)
+      // roomsController.rooms[room].users.push()
+      console.log(io.sockets.adapter.rooms)
+      console.log(io.sockets.adapter.rooms.get(room))
     } else {
-      callback({ err: 'any room with this name' })
+      callback({ err: 'room is full' })
     }
+  })
+  socket.on('am-i-ready', (roomId, userId, isReady) => {
+    const user = roomsController.rooms[roomId].users.find(({id}) => id === userId)
+    user.isReady = isReady
+    io.to(roomId).emit('are-everyone-ready', roomsController.isEveryoneReady())
   })
 })
 

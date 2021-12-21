@@ -1,25 +1,36 @@
-class Room {
-  constructor(playersCapacity) {
-    this.id = Room.idGenerator()
-    this.playersCapacity = playersCapacity
-  }
-  static idGenerator() {
-    return Date.now().toString(36) + Math.random().toString(36).substring(2)
-  }
-}
+const { Room, User } = require('../models/roomModels')
 
 const roomsControllers = {
-  rooms: [],
-  newRoom: function (req, res) {
-    const playersCapacity = req.body.playersCapacity || 4
-    const newRoom = new Room(playersCapacity)
-    this.rooms.push(newRoom)
-    res.send(newRoom.id)
+  rooms: {},
+  new: function (req, res) {
+    const maxUsers = req.body.maxUsers || 5
+    const newRoom = new Room(maxUsers)
+    const roomId = Room.idGenerator()
+    this.rooms[roomId] = newRoom
+    res.send(roomId)
   },
-  deleteRoom: function (req, res) {
+  delete: function (req, res) {
     const idToDelete = req.body.roomId
-    this.rooms = this.rooms.filter(({ id }) => id !== idToDelete)
-    res.sendStatus(200)
-  }
+    delete this.room[idToDelete]
+  },
+  hasRoom: function (req, res) {
+    const { roomId } = req.params
+    if (this.rooms[roomId]) {
+      res.send({ exist: true })
+    } else {
+      res.send({ exist: false })
+    }
+  },
+  isEveryoneReady: function (roomId) {
+    this.room[roomId].isReady = this.room[roomId].users.every(({ isReady }) => isReady)
+  },
+  addUserRoom: function (roomId, userId) {
+    const user = new User(userId)
+    this.room[roomId].users.push(user)
+  },
+  deleteUserRoom: function (roomId, userId) {
+    const filteredUsers = this.room[roomId].users.filter(({ id }) => id !== userId)
+    this.room[roomId].users = filteredUsers
+  },
 }
 module.exports = roomsControllers

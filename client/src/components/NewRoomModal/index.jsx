@@ -3,15 +3,12 @@ import React from 'react'
 
 export function NewRoomModal() {
   function handleClick() {
-    console.log('here')
-    fetch('/rooms/new', { method: 'POST'})
-      .then(res => { 
-        return res.text()
-      })
-      .then((data) => {
-        console.log(data)
-        window.location.href = `./rooms/${data}`
-      })
+    async function createRoom() {
+      const res = await fetch('/rooms/new', { method: 'POST' })
+      const roomId = await res.text()
+      window.location.href = `./rooms/${roomId}`
+    }
+    createRoom()
   }
   return (
     <section>
