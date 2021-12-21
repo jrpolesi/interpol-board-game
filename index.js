@@ -56,8 +56,9 @@ io.on('connection', (socket) => {
   })
 
   socket.on('player-change-preferences', (roomId, changes) =>{
-    console.log({changes})
-    io.to(roomId).emit('player-change-preferences', 'newPreferences')
+    const currentGame = roomsController.getGame(roomId)
+    currentGame.updatePreferences({id: socket.id, ...changes})
+    io.to(roomId).emit('player-change-preferences', currentGame.getPreferencesAvailable())
   })
 })
 

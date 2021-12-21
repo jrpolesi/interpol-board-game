@@ -15,10 +15,11 @@ class Game {
   constructor() {
     this.players = []
     this.thief = ''
-    this.colors = ['red', 'green', 'blue', 'black', 'yellow']
-    this.types = ['police1', 'police2', 'police3', 'police4', 'thief']
-    this.usedColors = []
-    this.usedTypes = []
+    this.preferences = {
+      color: ['red', 'green', 'blue', 'black', 'yellow'],
+      type: ['police1', 'police2', 'police3', 'police4', 'thief']
+    }
+    this.userPreferences = []
   }
   thiefWasArrested() {
 
@@ -39,11 +40,24 @@ class Game {
     return player
   }
 
-  getPreferencesAvailable() {
-    return({
-      color: this.colors.filter((color) => !this.usedColors.includes(color)),
-      type: this.types.filter((type) => !this.usedTypes.includes(type))
+  updatePreferences(newPreference) {
+    const userIndex = this.userPreferences.findIndex(({ id }) => {
+      return id === newPreference.id
     })
+    if (userIndex > -1) {
+      this.userPreferences[userIndex] = newPreference
+    } else {
+      this.userPreferences.push(newPreference)
+    }
+  }
+
+  getPreferencesAvailable() {
+    const usedColors = this.userPreferences.map(({ color }) => color)
+    const usedTypes = this.userPreferences.map(({ type }) => type)
+    const color = this.preferences.color.filter((color) => !usedColors.includes(color))
+    const type = this.preferences.type.filter((type) => !usedTypes.includes(type))
+
+    return {color, type}
   }
 }
 

@@ -6,7 +6,7 @@ import { GameProvider } from '../../Contexts/GameContext'
 
 export function Game() {
   const roomId = useParams().roomId
-  const { setRoom, setAmIReady } = useContext(ConnectionContext)
+  const { setRoom, setAmIReady, areEveryoneReady } = useContext(ConnectionContext)
   useEffect(() => {
     
     async function checkRooms() {

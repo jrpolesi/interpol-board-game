@@ -45,7 +45,9 @@ const roomsControllers = {
   },
 
   getGame: function (roomId) {
-    return this.rooms[roomId].game
+    if(this.rooms[roomId]){
+      return this.rooms[roomId].game
+    }
   }
 }
 module.exports = roomsControllers
