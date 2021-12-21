@@ -1,12 +1,12 @@
 import React, { useContext, useEffect } from 'react'
-import { useParams, Redirect } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { ConnectionContext } from '../../ConnectionContext'
 
 export function Game() {
   const roomId = useParams().roomId
-  const { setRoom } = useContext(ConnectionContext)
+  const { setRoom, amIReady, setAmIReady } = useContext(ConnectionContext)
   useEffect(() => {
-
+    
     async function checkRooms() {
       const res = await fetch(`/rooms/${roomId}`)
       const data = await res.json()
@@ -25,9 +25,14 @@ export function Game() {
     setCurrRoom()
   }, [])
 
+  function toggleAmIReady(){
+    setAmIReady(prevState => !prevState)
+  }
+
   return (
     <>
       <div>toooop</div>
+      <button onClick={toggleAmIReady}>Estou Pronto</button>
     </>
   )
 }

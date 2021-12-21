@@ -11,7 +11,7 @@ const roomsControllers = {
   },
   delete: function (req, res) {
     const idToDelete = req.body.roomId
-    delete this.room[idToDelete]
+    delete this.rooms[idToDelete]
   },
   hasRoom: function (req, res) {
     const { roomId } = req.params
@@ -22,15 +22,16 @@ const roomsControllers = {
     }
   },
   isEveryoneReady: function (roomId) {
-    this.room[roomId].isReady = this.room[roomId].users.every(({ isReady }) => isReady)
+    this.rooms[roomId].isReady = this.rooms[roomId].users.every(({ isReady }) => isReady)
+    return this.rooms[roomId].isReady
   },
   addUserRoom: function (roomId, userId) {
     const user = new User(userId)
-    this.room[roomId].users.push(user)
+    this.rooms[roomId].users.push(user)
   },
   deleteUserRoom: function (roomId, userId) {
-    const filteredUsers = this.room[roomId].users.filter(({ id }) => id !== userId)
-    this.room[roomId].users = filteredUsers
+    const filteredUsers = this.rooms[roomId].users.filter(({ id }) => id !== userId)
+    this.rooms[roomId].users = filteredUsers
   },
 }
 module.exports = roomsControllers

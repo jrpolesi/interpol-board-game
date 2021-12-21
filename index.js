@@ -30,20 +30,32 @@ io.on('connection', (socket) => {
   //   }
   // })
 
-  socket.on('join', (room, callback) => {
-    if (!io.sockets.adapter.rooms.has(room) || io.sockets.adapter.rooms.get(room).size < 5) {
-      socket.join(room)
-      // roomsController.rooms[room].users.push()
-      console.log(io.sockets.adapter.rooms)
-      console.log(io.sockets.adapter.rooms.get(room))
+  socket.on('join', (roomId, callback) => {
+    const currentRoom = roomsController.rooms[roomId]
+    const maxUsers = currentRoom.maxUsers
+    if (!io.sockets.adapter.rooms.has(roomId) || io.sockets.adapter.rooms.get(roomId).size < maxUsers) {
+      socket.join(roomId)
+      roomsController.addUserRoom(roomId, socket.id)
+      // console.log(io.sockets.adapter.rooms)
+      console.log(io.sockets.adapter.rooms.get(roomId))
     } else {
       callback({ err: 'room is full' })
     }
   })
-  socket.on('am-i-ready', (roomId, userId, isReady) => {
-    const user = roomsController.rooms[roomId].users.find(({id}) => id === userId)
+
+  socket.on('disconnecting', () => {
+    const roomId = [...socket.rooms].find((roomId) => roomId !== socket.id)
+    if(roomId){
+      roomsController.deleteUserRoom(roomId, socket.id)      
+    }
+    // console.log(roomsController.rooms[roomId])
+  })
+
+  socket.on('am-i-ready', (roomId, isReady) => {
+    // console.log(isReady)
+    const user = roomsController.rooms[roomId].users.find(({id}) => id === socket.id)
     user.isReady = isReady
-    io.to(roomId).emit('are-everyone-ready', roomsController.isEveryoneReady())
+    io.to(roomId).emit('are-everyone-ready', roomsController.isEveryoneReady(roomId))
   })
 })
 

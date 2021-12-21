@@ -6,7 +6,7 @@ export function NewRoomModal() {
     async function createRoom() {
       const res = await fetch('/rooms/new', { method: 'POST' })
       const roomId = await res.text()
-      window.location.href = `./rooms/${roomId}`
+      window.location.href = `./${roomId}`
     }
     createRoom()
   }

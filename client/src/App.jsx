@@ -10,7 +10,7 @@ function App() {
       <ConnectionProvider>
         <Router>
           <Routes>
-            <Route path="/rooms/:roomId" element={<Game />}/>
+            <Route path="/:roomId" element={<Game />}/>
             <Route path="/" element={<Home />}/>
           </Routes>
         </Router>
