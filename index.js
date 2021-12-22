@@ -48,6 +48,12 @@ io.on('connection', (socket) => {
     if (roomId) {
       roomsController.deleteUserRoom(roomId, socket.id)
     }
+    for (let roomId in roomsController.rooms) {
+      if (roomsController.rooms[roomId].users.length < 1) {
+        delete roomsController.rooms[roomId]
+        break
+      }
+    }
   })
 
   // socket.on('am-i-ready', (roomId, isReady) => {
