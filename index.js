@@ -64,6 +64,9 @@ io.on('connection', (socket) => {
     game.addNewPlayer(socket.id, color, 1, type)
     console.log(roomsController.getGame(roomId))
     io.to(roomId).emit('are-everyone-ready', roomsController.isEveryoneReady(roomId))
+    if(roomsController.isEveryoneReady(roomId)){
+      io.to(roomId).emit('stations', roomsController.getGame(roomId).stations)
+    }
   })
 
   socket.on('player-change-preferences', (roomId, changes) =>{

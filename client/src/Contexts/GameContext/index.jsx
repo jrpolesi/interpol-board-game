@@ -11,6 +11,7 @@ function GameProvider(props) {
   const [colorsAndTypesAvailable, setColorsAndTypesAvailable] = useState()
   const [amIReady, setAmIReady] = useState(false)
   const [areEveryoneReady, setareEveryoneReady] = useState(false)
+  const [stations, setStations] = useState()
 
   useEffect(() => {
     const connection = io('/')
@@ -31,6 +32,10 @@ function GameProvider(props) {
       })
       socket.on('are-everyone-ready', (areReady) => {
         setareEveryoneReady(areReady)
+      })
+      socket.on('stations', (stations) => {
+        console.log(stations)
+        setStations(stations)
       })
     }
   }, [socket, room])
