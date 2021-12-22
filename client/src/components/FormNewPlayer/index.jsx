@@ -4,19 +4,22 @@ import { Container } from './style'
 
 
 export function FormNewPlayer() {
-  const {colorsAndTypesAvailable} = useContext(GameContext)
-  if(colorsAndTypesAvailable){
-    return (
-      <Container onSubmit={(e) => e.preventDefault()}>
+  const { colorsAndTypesAvailable, setAmIReady } = useContext(GameContext)
+
+  function toggleAmIReady(){
+    setAmIReady(prevState => !prevState)
+  }
+
+  return (
+    <Container onSubmit={(e) => e.preventDefault()}>
+      {colorsAndTypesAvailable && <>
         <select name="type" id="playerColor"  >
           {colorsAndTypesAvailable.type.map((type) => <option key={type} value={type}>{type}</option>)}
         </select>
         <select name="color" id="playerColor">
           {colorsAndTypesAvailable.color.map((color) => <option key={color} value={color}>{color}</option>)}
         </select>
-        <button >Estou pronto</button>
-      </Container>
-    )
-  }
-  return null
+        <button onClick={toggleAmIReady}>Estou pronto</button></>}
+    </Container>
+  )
 }

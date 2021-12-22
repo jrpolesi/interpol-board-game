@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { FormNewPlayer } from '../../components/FormNewPlayer'
 import { GameProvider } from '../../Contexts/GameContext'
 

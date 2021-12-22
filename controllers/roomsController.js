@@ -39,11 +39,16 @@ const roomsControllers = {
     const filteredUsers = this.rooms[roomId].users.filter(({ id }) => id !== userId)
     this.rooms[roomId].users = filteredUsers
   },
-  
+
+  getUser: function (roomId, userId) {
+    return this.rooms[roomId].users.find(({ id }) => id === userId)
+  },
+
   getGame: function (roomId) {
-    if(this.rooms[roomId]){
+    if (this.rooms[roomId]) {
       return this.rooms[roomId].game
     }
-  }
+  },
+
 }
 module.exports = roomsControllers

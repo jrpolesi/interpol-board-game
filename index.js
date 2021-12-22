@@ -37,7 +37,6 @@ io.on('connection', (socket) => {
       } else {
         callback({ err: 'room is full' })
       }
-      console.log(roomsController.rooms[roomId].game)
     } else {
       callback({ err: 'Room not find' })
     }
@@ -56,11 +55,11 @@ io.on('connection', (socket) => {
     }
   })
 
-  // socket.on('am-i-ready', (roomId, isReady) => {
-  //   const user = roomsController.rooms[roomId].users.find(({ id }) => id === socket.id)
-  //   user.isReady = isReady
-  //   io.to(roomId).emit('are-everyone-ready', roomsController.isEveryoneReady(roomId))
-  // })
+  socket.on('am-i-ready', (roomId, isReady) => {
+    const user = roomsController.getUser(roomId, socket.id)
+    user.isReady = isReady
+    io.to(roomId).emit('are-everyone-ready', roomsController.isEveryoneReady(roomId))
+  })
 
   // socket.on('player-change-preferences', (roomId, changes) =>{
   //   const currentGame = roomsController.getGame(roomId)
