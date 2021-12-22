@@ -42,22 +42,28 @@ const roomsControllers = {
   },
 
   getUser: function (roomId, userId) {
-    return this.rooms[roomId].users.find(({ id }) => id === userId)
+    if (this.rooms[roomId]) {
+      return this.rooms[roomId].users.find(({ id }) => id === userId)
+    }
   },
 
   getPreferencesAvailable(roomId) {
-    const preferences = this.rooms[roomId].users.map(({ preference }) => preference)
-    const usedColors = preferences.map(({ color }) => color)
-    const usedTypes = preferences.map(({ type }) => type)
-    const color = this.rooms[roomId].preferences.color.filter((color) => !usedColors.includes(color))
-    const type = this.rooms[roomId].preferences.type.filter((type) => !usedTypes.includes(type))
+    if (this.rooms[roomId]) {
+      const preferences = this.rooms[roomId].users.map(({ preference }) => preference)
+      const usedColors = preferences.map(({ color }) => color)
+      const usedTypes = preferences.map(({ type }) => type)
+      const color = this.rooms[roomId].preferences.color.filter((color) => !usedColors.includes(color))
+      const type = this.rooms[roomId].preferences.type.filter((type) => !usedTypes.includes(type))
 
-    return { color, type }
+      return { color, type }
+    }
   },
 
   updateUserPreferences(roomId, userId, newPreference) {
     const user = this.getUser(roomId, userId)
-    user.preference = newPreference
+    if (user) {
+      user.preference = newPreference
+    }
   },
 
   // getGame: function (roomId) {

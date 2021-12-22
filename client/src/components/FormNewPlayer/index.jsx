@@ -4,7 +4,7 @@ import { Container } from './style'
 
 
 export function FormNewPlayer() {
-  const { colorsAndTypesAvailable, setAmIReady, socket, room } = useContext(GameContext)
+  const { colorsAndTypesAvailable, setColorsAndTypesAvailable, setAmIReady, socket, room } = useContext(GameContext)
   const [formData, setFormData] = useState()
 
   useEffect(() => {
@@ -17,20 +17,26 @@ export function FormNewPlayer() {
   }, [colorsAndTypesAvailable, formData])
 
   useEffect(() => {
-    if(socket && formData){
+    if (socket && formData) {
       socket.emit('player-change-preferences', room, formData)
-      socket.on('player-change-preferences', () => {
-        console.log('mudoi')
+      socket.on('new-change', (changes) => {
+        const newPreferences = JSON.parse(JSON.stringify(changes))
+        newPreferences.color.push(formData.color)
+        newPreferences.type.push(formData.type)
+        setColorsAndTypesAvailable((prevState) =>{
+          return newPreferences
+        })
       })
+      return () => {socket.off('new-change')}
     }
   }, [formData, socket, room])
-  
+
   function toggleAmIReady() {
     setAmIReady(prevState => !prevState)
   }
 
-  function handleChange(event){
-    const {name, value} = event.target
+  function handleChange(event) {
+    const { name, value } = event.target
     setFormData((prevState) => ({
       ...prevState,
       [name]: value

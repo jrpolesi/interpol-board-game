@@ -42,7 +42,7 @@ function GameProvider(props) {
     }
   }, [room, amIReady])
 
-  const values = { socket, room, colorsAndTypesAvailable, amIReady, setAmIReady, areEveryoneReady }
+  const values = { socket, room, colorsAndTypesAvailable,setColorsAndTypesAvailable,  amIReady, setAmIReady, areEveryoneReady }
   return (
     <GameContext.Provider value={values}>
       {props.children}

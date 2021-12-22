@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const http = require('http')
 const server = http.createServer(app)
-const port = 3001
+const port = 3000
 const cors = require('cors')
 app.use(cors())
 
@@ -63,7 +63,10 @@ io.on('connection', (socket) => {
 
   socket.on('player-change-preferences', (roomId, changes) =>{
       roomsController.updateUserPreferences(roomId, socket.id, changes)
-      io.to(roomId).emit('player-change-preferences', roomsController.getPreferencesAvailable(roomId))
+      console.log({changes})
+      const preferences = roomsController.getPreferencesAvailable(roomId)
+      console.log({preferences})
+      io.to(roomId).emit('new-change', preferences)
   })
 })
 
