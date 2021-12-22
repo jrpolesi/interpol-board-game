@@ -39,11 +39,7 @@ const roomsControllers = {
     const filteredUsers = this.rooms[roomId].users.filter(({ id }) => id !== userId)
     this.rooms[roomId].users = filteredUsers
   },
-
-  startGame: function (roomId) {
-    this.rooms[roomId].game = new Game()
-  },
-
+  
   getGame: function (roomId) {
     if(this.rooms[roomId]){
       return this.rooms[roomId].game

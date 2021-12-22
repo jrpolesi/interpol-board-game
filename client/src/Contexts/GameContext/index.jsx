@@ -7,17 +7,27 @@ const GameContext = createContext()
 
 function GameProvider(props) {
   const [socket, setSocket] = useState()
-  const [room, setRoom] = useState(useParams())
+  const [room, setRoom] = useState(useParams().roomId)
 
   useEffect(() => {
     const connection = io('/')
     connection.on('connect', () => {
-      setSocket(connection.id)
+      setSocket(connection)
     })
   }, [])
 
+  useEffect(() => {
+    if(socket){
+      console.log(socket)
+      socket.emit('join-room', room, (err) => {
+        if(err){
+          window.location.href = "/"
+        }
+      })
+    }
+  }, [socket, room])
 
-  const values = {}
+  const values = {socket, room}
   return (
     <GameContext.Provider value={values}>
       {props.children}
