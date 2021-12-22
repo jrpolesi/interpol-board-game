@@ -31,16 +31,16 @@ io.on('connection', (socket) => {
       if (currentRoom.users.length < maxUsers) {
         socket.join(roomId)
         roomsController.addUserRoom(roomId, socket.id)
-        // const preferences = roomsController.getGame(roomId).getPreferencesAvailable()
-        // io.to(roomId).emit('preferencesAvailable', preferences)
+        const preferences = roomsController.getGame(roomId).getPreferencesAvailable()
+        io.to(roomId).emit('preferencesAvailable', preferences)
         // console.log(io.sockets.adapter.rooms.get(roomId))
       } else {
         callback({ err: 'room is full' })
       }
+      console.log(roomsController.rooms[roomId].game)
     } else {
       callback({ err: 'Room not find' })
     }
-    console.log(roomsController.rooms)
   })
 
   socket.on('disconnecting', () => {

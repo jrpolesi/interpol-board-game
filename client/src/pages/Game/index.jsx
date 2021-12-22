@@ -10,7 +10,7 @@ export function Game() {
   return (
     <GameProvider>
       <button onClick={handleClick}>{num}</button>
-      {/* <FormNewPlayer /> */}
+      <FormNewPlayer />
     </GameProvider>
   )
 }

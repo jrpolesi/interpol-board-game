@@ -8,6 +8,7 @@ const GameContext = createContext()
 function GameProvider(props) {
   const [socket, setSocket] = useState()
   const [room] = useState(useParams().roomId)
+  const [colorsAndTypesAvailable, setColorsAndTypesAvailable] = useState()
 
   useEffect(() => {
     const connection = io('/')
@@ -18,16 +19,19 @@ function GameProvider(props) {
 
   useEffect(() => {
     if (socket) {
-      console.log(socket)
       socket.emit('join-room', room, (err) => {
         if (err) {
           window.location.href = "/"
         }
       })
+      socket.on('preferencesAvailable', (preferences) => {
+        console.log(preferences)
+        setColorsAndTypesAvailable(preferences)
+      })
     }
   }, [socket, room])
 
-  const values = { socket, room }
+  const values = { socket, room, colorsAndTypesAvailable }
   return (
     <GameContext.Provider value={values}>
       {props.children}
