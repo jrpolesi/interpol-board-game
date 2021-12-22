@@ -31,7 +31,7 @@ io.on('connection', (socket) => {
       if (currentRoom.users.length < maxUsers) {
         socket.join(roomId)
         roomsController.addUserRoom(roomId, socket.id)
-        const preferences = roomsController.getGame(roomId).getPreferencesAvailable()
+        const preferences = roomsController.getPreferencesAvailable(roomId)
         io.to(socket.id).emit('preferencesAvailable', preferences)
         // console.log(io.sockets.adapter.rooms.get(roomId))
       } else {
@@ -62,13 +62,8 @@ io.on('connection', (socket) => {
   })
 
   socket.on('player-change-preferences', (roomId, changes) =>{
-    console.log('changes')
-    const currentGame = roomsController.getGame(roomId)
-    if(currentGame){
-      currentGame.updatePreferences({id: socket.id, ...changes})
-      io.to(roomId).emit('player-change-preferences', currentGame.getPreferencesAvailable())
-      console.log(roomsController.getGame(roomId))
-    }
+      roomsController.updateUserPreferences(roomId, socket.id, changes)
+      io.to(roomId).emit('player-change-preferences', roomsController.getPreferencesAvailable(roomId))
   })
 })
 

@@ -37,7 +37,7 @@ const roomsControllers = {
 
   deleteUserRoom: function (roomId, userId) {
     const filteredUsers = this.rooms[roomId].users.filter(({ id }) => id !== userId)
-    
+
     this.rooms[roomId].users = filteredUsers
   },
 
@@ -45,11 +45,26 @@ const roomsControllers = {
     return this.rooms[roomId].users.find(({ id }) => id === userId)
   },
 
-  getGame: function (roomId) {
-    if (this.rooms[roomId]) {
-      return this.rooms[roomId].game
-    }
+  getPreferencesAvailable(roomId) {
+    const preferences = this.rooms[roomId].users.map(({ preference }) => preference)
+    const usedColors = preferences.map(({ color }) => color)
+    const usedTypes = preferences.map(({ type }) => type)
+    const color = this.rooms[roomId].preferences.color.filter((color) => !usedColors.includes(color))
+    const type = this.rooms[roomId].preferences.type.filter((type) => !usedTypes.includes(type))
+
+    return { color, type }
   },
+
+  updateUserPreferences(roomId, userId, newPreference) {
+    const user = this.getUser(roomId, userId)
+    user.preference = newPreference
+  },
+
+  // getGame: function (roomId) {
+  //   if (this.rooms[roomId]) {
+  //     return this.rooms[roomId].game
+  //   }
+  // }
 
 }
 module.exports = roomsControllers
