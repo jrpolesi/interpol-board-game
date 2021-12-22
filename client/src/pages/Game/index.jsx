@@ -1,39 +1,16 @@
-import React, { useContext, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useContext, useEffect, useState } from 'react'
 import { FormNewPlayer } from '../../components/FormNewPlayer'
-import { ConnectionContext } from '../../ConnectionContext'
 import { GameProvider } from '../../Contexts/GameContext'
 
 export function Game() {
-  const roomId = useParams().roomId
-  const { setRoom, setAmIReady, areEveryoneReady } = useContext(ConnectionContext)
-  useEffect(() => {
-    
-    async function checkRooms() {
-      const res = await fetch(`/rooms/${roomId}`)
-      const data = await res.json()
-      return data.exist
-    }
-
-    async function setCurrRoom() {
-      const isCreated = await checkRooms()
-      if (isCreated) {
-        setRoom(roomId)
-      } else {
-        window.location.href = '/'
-      }
-    }
-
-    setCurrRoom()
-  }, [])
-
-  function toggleAmIReady(){
-    setAmIReady(prevState => !prevState)
+  const [num, setNum] = useState(2)
+  function handleClick() {
+    setNum(prev => prev + 1)
   }
-
   return (
     <GameProvider>
-      <FormNewPlayer />
+      <button onClick={handleClick}>{num}</button>
+      {/* <FormNewPlayer /> */}
     </GameProvider>
   )
 }

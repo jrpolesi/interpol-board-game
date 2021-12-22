@@ -1,25 +1,20 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { ConnectionContext } from "../../ConnectionContext";
+import React, { createContext, useEffect, useState } from 'react'
+import { io } from 'socket.io-client'
+
 
 const GameContext = createContext()
 
 function GameProvider(props) {
-  const { socket, preferencesAvailable, setPreferencesAvailable } = useContext(ConnectionContext)
-  const [players, setPlayers] = useState()
- 
-
+  const [socket, setSocket] = useState()
 
   useEffect(() => {
-    if (socket) {
-      socket.on('player-change-preferences', (changes) => {
-        console.log(changes)
-        // setPreferencesAvailable(changes)
-      })
-    }
-  }, [socket])
+    const connection = io('/')
+    connection.on('connect', () => {
+      setSocket(connection.id)
+    })
+  }, [])
 
-
-  const values = { preferencesAvailable, setPreferencesAvailable }
+  const values = {}
   return (
     <GameContext.Provider value={values}>
       {props.children}
