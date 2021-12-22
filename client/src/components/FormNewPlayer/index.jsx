@@ -9,7 +9,6 @@ export function FormNewPlayer() {
 
   useEffect(() => {
     if (!formData && colorsAndTypesAvailable) {
-      console.log('here')
       const color = colorsAndTypesAvailable.color[0]
       const type = colorsAndTypesAvailable.type[0]
       setFormData({ color, type })

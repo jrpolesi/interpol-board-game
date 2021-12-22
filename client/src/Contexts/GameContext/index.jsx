@@ -27,7 +27,6 @@ function GameProvider(props) {
         }
       })
       socket.on('preferencesAvailable', (preferences) => {
-        console.log(preferences)
         setColorsAndTypesAvailable(preferences)
       })
       socket.on('are-everyone-ready', (areReady) => {

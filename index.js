@@ -63,9 +63,7 @@ io.on('connection', (socket) => {
 
   socket.on('player-change-preferences', (roomId, changes) =>{
       roomsController.updateUserPreferences(roomId, socket.id, changes)
-      console.log({changes})
       const preferences = roomsController.getPreferencesAvailable(roomId)
-      console.log({preferences})
       io.to(roomId).emit('new-change', preferences)
   })
 })
