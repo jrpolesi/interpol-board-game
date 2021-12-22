@@ -30,7 +30,8 @@ export function FormNewPlayer() {
     }
   }, [formData, socket, room])
 
-  function toggleAmIReady() {
+  function toggleAmIReady(event) {
+    event.preventDefault()
     setAmIReady(prevState => !prevState)
   }
 
@@ -43,7 +44,7 @@ export function FormNewPlayer() {
   }
 
   return (
-    <Container onSubmit={(e) => e.preventDefault()}>
+    <Container onSubmit={toggleAmIReady}>
       {colorsAndTypesAvailable && formData && <>
         <select name="type" id="playerColor" value={formData.type} onChange={handleChange}>
           {colorsAndTypesAvailable.type.map((type) => <option key={type} value={type}>{type}</option>)}
@@ -51,7 +52,7 @@ export function FormNewPlayer() {
         <select name="color" id="playerColor" value={formData.color} onChange={handleChange}>
           {colorsAndTypesAvailable.color.map((color) => <option key={color} value={color}>{color}</option>)}
         </select>
-        <button onClick={toggleAmIReady}>Estou pronto</button></>}
+        <button>Estou pronto</button></>}
     </Container>
   )
 }
