@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FormNewPlayer } from '../../components/FormNewPlayer'
+import { GameBoard } from '../../components/GameBoard'
 import { GameProvider } from '../../Contexts/GameContext'
 
 export function Game() {
@@ -10,7 +10,7 @@ export function Game() {
   return (
     <GameProvider>
       <button onClick={handleClick}>{num}</button>
-      <FormNewPlayer />
+      <GameBoard />
     </GameProvider>
   )
 }
