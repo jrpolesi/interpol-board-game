@@ -25,34 +25,30 @@ const io = new Server(server, {
 
 io.on('connection', (socket) => {
   socket.on('join-room', (roomId, callback) => {
-    console.log(roomsController.rooms)
     const currentRoom = roomsController.rooms[roomId]
-    if(currentRoom){
-
-    }else{
+    if (currentRoom) {
+      const maxUsers = currentRoom.maxUsers
+      if (currentRoom.users.length < maxUsers) {
+        socket.join(roomId)
+        roomsController.addUserRoom(roomId, socket.id)
+        // const preferences = roomsController.getGame(roomId).getPreferencesAvailable()
+        // io.to(roomId).emit('preferencesAvailable', preferences)
+        // console.log(io.sockets.adapter.rooms.get(roomId))
+      } else {
+        callback({ err: 'room is full' })
+      }
+    } else {
       callback({ err: 'Room not find' })
     }
-    // const maxUsers = currentRoom.maxUsers
-    // if(!io.sockets.adapter.rooms.has(roomId)){
-    //   roomsController.startGame(roomId)
-    // }
-    // if (!io.sockets.adapter.rooms.has(roomId) || io.sockets.adapter.rooms.get(roomId).size < maxUsers) {
-    //   socket.join(roomId)
-    //   roomsController.addUserRoom(roomId, socket.id)
-    //   const preferences = roomsController.getGame(roomId).getPreferencesAvailable()
-    //   io.to(roomId).emit('preferencesAvailable', preferences)
-    //   console.log(io.sockets.adapter.rooms.get(roomId))
-    // } else {
-    //   callback({ err: 'room is full' })
-    // }
+    console.log(roomsController.rooms)
   })
 
-  // socket.on('disconnecting', () => {
-  //   const roomId = [...socket.rooms].find((roomId) => roomId !== socket.id)
-  //   if (roomId) {
-  //     roomsController.deleteUserRoom(roomId, socket.id)
-  //   }
-  // })
+  socket.on('disconnecting', () => {
+    const roomId = [...socket.rooms].find((roomId) => roomId !== socket.id)
+    if (roomId) {
+      roomsController.deleteUserRoom(roomId, socket.id)
+    }
+  })
 
   // socket.on('am-i-ready', (roomId, isReady) => {
   //   const user = roomsController.rooms[roomId].users.find(({ id }) => id === socket.id)
