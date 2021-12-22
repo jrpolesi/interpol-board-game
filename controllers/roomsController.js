@@ -37,6 +37,7 @@ const roomsControllers = {
 
   deleteUserRoom: function (roomId, userId) {
     const filteredUsers = this.rooms[roomId].users.filter(({ id }) => id !== userId)
+    
     this.rooms[roomId].users = filteredUsers
   },
 

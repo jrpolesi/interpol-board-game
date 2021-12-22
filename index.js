@@ -32,7 +32,7 @@ io.on('connection', (socket) => {
         socket.join(roomId)
         roomsController.addUserRoom(roomId, socket.id)
         const preferences = roomsController.getGame(roomId).getPreferencesAvailable()
-        io.to(roomId).emit('preferencesAvailable', preferences)
+        io.to(socket.id).emit('preferencesAvailable', preferences)
         // console.log(io.sockets.adapter.rooms.get(roomId))
       } else {
         callback({ err: 'room is full' })
@@ -61,11 +61,15 @@ io.on('connection', (socket) => {
     io.to(roomId).emit('are-everyone-ready', roomsController.isEveryoneReady(roomId))
   })
 
-  // socket.on('player-change-preferences', (roomId, changes) =>{
-  //   const currentGame = roomsController.getGame(roomId)
-  //   currentGame.updatePreferences({id: socket.id, ...changes})
-  //   io.to(roomId).emit('player-change-preferences', currentGame.getPreferencesAvailable())
-  // })
+  socket.on('player-change-preferences', (roomId, changes) =>{
+    console.log('changes')
+    const currentGame = roomsController.getGame(roomId)
+    if(currentGame){
+      currentGame.updatePreferences({id: socket.id, ...changes})
+      io.to(roomId).emit('player-change-preferences', currentGame.getPreferencesAvailable())
+      console.log(roomsController.getGame(roomId))
+    }
+  })
 })
 
 server.listen(port, () => {
