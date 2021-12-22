@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const http = require('http')
 const server = http.createServer(app)
-const port = 3000
+const port = 3001
 const cors = require('cors')
 app.use(cors())
 
@@ -56,8 +56,13 @@ io.on('connection', (socket) => {
   })
 
   socket.on('am-i-ready', (roomId, isReady) => {
+    console.log(roomsController.rooms[roomId])
     const user = roomsController.getUser(roomId, socket.id)
     user.isReady = isReady
+    const game = roomsController.getGame(roomId)
+    const {color, type} = user.preference
+    game.addNewPlayer(socket.id, color, 1, type)
+    console.log(roomsController.getGame(roomId))
     io.to(roomId).emit('are-everyone-ready', roomsController.isEveryoneReady(roomId))
   })
 

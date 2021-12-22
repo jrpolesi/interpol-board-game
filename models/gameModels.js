@@ -1,13 +1,21 @@
 class Player {
-  constructor(id, type, color, hidden, position) {
+  constructor(id, color, position) {
     this.id = id
-    this.type = type
     this.color = color
-    this.hidden = hidden
     this.position = position
+    this.type = 'police'
+    this.hidden = false
   }
   move(transport, toPosition) {
 
+  }
+}
+
+class Thief extends Player {
+  constructor(id, color, position) {
+    super(id, color, position)
+    this.type = 'thief'
+    this.hidden = true
   }
 }
 
@@ -15,18 +23,21 @@ class Game {
   constructor() {
     this.players = []
     this.thief = ''
-    this.preferences = {
-      color: ['red', 'green', 'blue', 'black', 'yellow'],
-      type: ['police1', 'police2', 'police3', 'police4', 'thief']
-    }
-    this.userPreferences = []
+    this.stations = {}
+    this.currentPlayer = ''
+    this.round = 20
   }
   thiefWasArrested() {
 
   }
 
-  addNewPlayer(id, className, color, hidden, position) {
-    const player = new Player(id, className, color, hidden, position)
+  addNewPlayer(id, color, position, type) {
+    let player
+    if (type === 'thief') {
+      player = new Thief(id, color, position)
+    } else {
+      player = new Player(id, color, position)
+    }
     this.players.push(player)
   }
 
@@ -39,26 +50,10 @@ class Game {
     const player = this.players.find(({ id }) => id === playerId)
     return player
   }
+}
 
-  updatePreferences(newPreference) {
-    const userIndex = this.userPreferences.findIndex(({ id }) => {
-      return id === newPreference.id
-    })
-    if (userIndex > -1) {
-      this.userPreferences[userIndex] = newPreference
-    } else {
-      this.userPreferences.push(newPreference)
-    }
-  }
+const stations = {
 
-  getPreferencesAvailable() {
-    const usedColors = this.userPreferences.map(({ color }) => color)
-    const usedTypes = this.userPreferences.map(({ type }) => type)
-    const color = this.preferences.color.filter((color) => !usedColors.includes(color))
-    const type = this.preferences.type.filter((type) => !usedTypes.includes(type))
-
-    return {color, type}
-  }
 }
 
 

@@ -66,11 +66,11 @@ const roomsControllers = {
     }
   },
 
-  // getGame: function (roomId) {
-  //   if (this.rooms[roomId]) {
-  //     return this.rooms[roomId].game
-  //   }
-  // }
+  getGame: function (roomId) {
+    if (this.rooms[roomId]) {
+      return this.rooms[roomId].game
+    }
+  }
 
 }
 module.exports = roomsControllers
