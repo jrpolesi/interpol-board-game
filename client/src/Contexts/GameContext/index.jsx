@@ -35,11 +35,11 @@ function GameProvider(props) {
         setareEveryoneReady(areReady)
       })
       socket.on('stations', (stations) => {
+        console.log(stations)
         setStations(stations)
       })
       socket.on('players-update', (players) => {
-        console.log(players)
-        setPlayers(stations)
+        setPlayers(players)
       })
     }
   }, [socket, room])
@@ -50,7 +50,7 @@ function GameProvider(props) {
     }
   }, [room, amIReady])
 
-  const values = { socket, room, colorsAndTypesAvailable,setColorsAndTypesAvailable,  amIReady, setAmIReady, areEveryoneReady, stations }
+  const values = { socket, room, colorsAndTypesAvailable,setColorsAndTypesAvailable,  amIReady, setAmIReady, areEveryoneReady, stations, players }
   return (
     <GameContext.Provider value={values}>
       {props.children}

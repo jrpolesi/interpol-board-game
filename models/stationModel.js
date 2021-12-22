@@ -1,4 +1,4 @@
-const station = {
+const stations = {
   1: {
     x: 25,
     y: 50,
@@ -244,3 +244,6 @@ const station = {
     y: 50,
   },
 }
+
+
+module.exports = {stations}

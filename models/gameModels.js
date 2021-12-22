@@ -1,3 +1,4 @@
+const { stations } = require('./stationModel')
 class Player {
   constructor(id, color, position) {
     this.id = id
@@ -23,7 +24,7 @@ class Game {
   constructor() {
     this.players = []
     this.thief = ''
-    this.stations = {}
+    this.stations = stations
     this.currentPlayer = ''
     this.round = 20
   }
@@ -50,10 +51,6 @@ class Game {
     const player = this.players.find(({ id }) => id === playerId)
     return player
   }
-}
-
-const stations = {
-
 }
 
 

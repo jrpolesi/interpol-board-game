@@ -3,9 +3,11 @@ import { GameContext } from '../../Contexts/GameContext'
 
 
 export function TransportsButtons() {
-  const {socket} = useContext(GameContext)
+  const {socket, players, stations} = useContext(GameContext)
   function handleClick(event){
-    console.log(socket)
+    const player = players.find(({ id }) => id === socket.id)
+    const currentStation = stations[player.position]
+    console.log(currentStation)
   }
   return (
     <div onClick={handleClick}>

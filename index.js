@@ -61,7 +61,7 @@ io.on('connection', (socket) => {
     user.isReady = isReady
     const game = roomsController.getGame(roomId)
     const {color, type} = user.preference
-    game.addNewPlayer(socket.id, color, 1, type)
+    game.addNewPlayer(socket.id, color, '1', type)
     console.log(roomsController.getGame(roomId))
     io.to(roomId).emit('are-everyone-ready', roomsController.isEveryoneReady(roomId))
     if(roomsController.isEveryoneReady(roomId)){
