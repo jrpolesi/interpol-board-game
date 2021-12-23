@@ -75,9 +75,9 @@ export function Canvas(props) {
         drawStation(ctx, station, stationId)
       })
       // Guia para o preenchimento manual das stations
-      // ctx.beginPath()
-      // ctx.arc(1372, 409, 21, 0, 360)
-      // ctx.stroke()
+      ctx.beginPath()
+      ctx.arc(1444, 30, 21, 0, 360)
+      ctx.stroke()
     }
   }
 
