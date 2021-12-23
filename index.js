@@ -45,6 +45,9 @@ io.on('connection', (socket) => {
   socket.on('disconnecting', () => {
     const roomId = [...socket.rooms].find((roomId) => roomId !== socket.id)
     if (roomId) {
+      const game = roomsController.getGame(roomId)
+      game.removePlayer(socket.id)
+      io.to(roomId).emit('players-update', game.players)
       roomsController.deleteUserRoom(roomId, socket.id)
     }
     for (let roomId in roomsController.rooms) {
@@ -59,24 +62,29 @@ io.on('connection', (socket) => {
     const user = roomsController.getUser(roomId, socket.id)
     user.isReady = isReady
     const game = roomsController.getGame(roomId)
-    const {color, type} = user.preference
+    const { color, type } = user.preference
     game.addNewPlayer(socket.id, color, 1, type)
     io.to(roomId).emit('are-everyone-ready', roomsController.isEveryoneReady(roomId))
-    if(roomsController.isEveryoneReady(roomId)){
+    if (roomsController.isEveryoneReady(roomId)) {
       io.to(roomId).emit('stations', roomsController.getGame(roomId).stations)
       io.to(roomId).emit('players-update', roomsController.getGame(roomId).players)
     }
-  }) 
+  })
 
-  socket.on('player-change-preferences', (roomId, changes) =>{
-      roomsController.updateUserPreferences(roomId, socket.id, changes)
-      const preferences = roomsController.getPreferencesAvailable(roomId)
-      io.to(roomId).emit('new-change', preferences)
+  socket.on('player-change-preferences', (roomId, changes) => {
+    roomsController.updateUserPreferences(roomId, socket.id, changes)
+    const preferences = roomsController.getPreferencesAvailable(roomId)
+    io.to(roomId).emit('new-change', preferences)
   })
 
   //Criar evento para mudança de posição 
+  socket.on('player-change-position', (roomId, playersUpdate) => {
+    const game = roomsController.getGame(roomId)
+    game.players = playersUpdate
+    console.log(game.players)
+    io.to(roomId).emit('players-update', game.players)
+  })
 })
-
 server.listen(port, () => {
   console.log('Server Running on port ' + port)
 }).on('error', (err) => {

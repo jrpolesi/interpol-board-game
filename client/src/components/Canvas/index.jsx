@@ -16,7 +16,7 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, width, height, ra
 }
 
 export function Canvas(props) {
-  const { stations, currentVehicle, socket, players, setPlayers } = useContext(GameContext)
+  const { stations, currentVehicle, socket, room, players, setPlayers } = useContext(GameContext)
   const [canvasImage, setCanvasImage] = useState()
   const canvasRef = useRef(null)
 
@@ -134,8 +134,9 @@ export function Canvas(props) {
     return clickedStation
   }
 
+
   function changePlayerPosition(playerId, newPosition) {
-    setPlayers(prevState => prevState.map((player) => {
+    const newPlayers = players.map((player) => {
       if (player.id === playerId) {
         return {
           ...player,
@@ -145,7 +146,7 @@ export function Canvas(props) {
         return player
       }
     })
-    )
+    socket.emit('player-change-position', room, newPlayers)
   }
 
   function handleClick(event) {

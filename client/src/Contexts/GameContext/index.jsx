@@ -39,6 +39,7 @@ function GameProvider(props) {
         setStations(stations)
       })
       socket.on('players-update', (players) => {
+        console.log(players)
         setPlayers(players)
       })
     }
