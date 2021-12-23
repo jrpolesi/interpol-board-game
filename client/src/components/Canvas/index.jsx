@@ -16,7 +16,7 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, width, height, ra
 }
 
 export function Canvas(props) {
-  const { stations } = useContext(GameContext)
+  const { stations, currentVehicle, socket, players, setPlayers } = useContext(GameContext)
   const [canvasImage, setCanvasImage] = useState()
   const canvasRef = useRef(null)
 
@@ -56,7 +56,7 @@ export function Canvas(props) {
     ctx.arc(x, y, 19, 0, 360)
     ctx.fill()
 
- 
+
     if (taxi) drawTaxiStation(ctx, x, y)
 
     if (bus) drawBusStation(ctx, x, y)
@@ -64,14 +64,13 @@ export function Canvas(props) {
     const fillColorNumberStation = subway ? '#92d9ff' : '#FFFFFF'
     drawNumberStation(ctx, x, y, stationId, fillColorNumberStation)
   }
-  function draw(ctx, frameCount) {
+  function draw(ctx) {
     if (canvasImage) {
       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
       ctx.drawImage(canvasImage, 0, 0)
       for (let stationId in stations) {
-        
+
       }
-      console.log(stations)
       stations.forEach((station, stationId) => {
         drawStation(ctx, station, stationId)
       })
@@ -109,17 +108,51 @@ export function Canvas(props) {
 
   }, [draw])
 
-  function getMouseClick(event){
+  function getMouseClick(event) {
     const canvas = event.target
     const size = canvas.getBoundingClientRect()
     const x = (event.clientX - size.left)
     const y = (event.clientY - size.top)
     console.log(x, y)
+    return { x, y }
+  }
+
+  function checkAxisHitbox(click, axis, range) {
+    return (click <= axis + range) && (click >= axis - range)
+  }
+
+  function getStationClicked(click) {
+    let clickedStation
+    for (let i = 0; i < stations.length; i++) {
+      const { x, y } = stations[i]
+      if (checkAxisHitbox(click.x, x, 17) && checkAxisHitbox(click.y, y, 17)) {
+        clickedStation = { id: i, ...stations[i] }
+        break
+      }
+    }
+
+    return clickedStation
+  }
+
+  function handleClick(event) {
+    const click = getMouseClick(event)
+    const clickedStation = getStationClicked(click)
+    const currentIndexPosition = players.find(({ id }) => id === socket.id).position
+    const currentPosition = stations[currentIndexPosition]
+    const availablesStations = currentPosition[`${currentVehicle}To`]
+    console.log(availablesStations)
+    console.log(currentVehicle, currentPosition)
+    if (!availablesStations || !clickedStation) {
+      return
+    }
+    if (availablesStations && availablesStations.includes(clickedStation.id)) {
+      console.log(true)
+    }
   }
 
   return (
     <div style={{ overflow: 'auto' }}>
-      <canvas onClick={getMouseClick} ref={canvasRef} {...props} width={1770} height={960} />
+      <canvas onClick={handleClick} ref={canvasRef} {...props} width={1770} height={960} />
     </div>
   )
 }
