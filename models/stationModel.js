@@ -2,18 +2,18 @@ const stations = {
   1: {
     x: 25,
     y: 50,
-    taxisTo: [this['2'], this['4']],
-    metroTo: [this['3']]
+    taxiTo: ['2', '4'],
+    metroTo: ['5']
   },
   2: {
     x: 80,
     y: 50,
-    taxisTo: [this['1']]
+    taxiTo: ['1']
   },
   3: {
     x: 80,
     y: 50,
-    taxisTo: [this['1']]
+    taxiTo: ['2']
   },
   4: {
     x: 80,
