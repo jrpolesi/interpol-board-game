@@ -84,6 +84,7 @@ io.on('connection', (socket) => {
     const game = roomsController.getGame(roomId)
     game.players = playersUpdate
     game.currentPlayer++
+    game.round--
     if(game.currentPlayer >= game.players.length){
       game.currentPlayer = 0
     }
