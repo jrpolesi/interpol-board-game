@@ -28,13 +28,25 @@ class Game {
     this.currentPlayer = ''
     this.round = 20
   }
-  thiefWasArrested() {
 
+  thiefWasArrested() {
+    const playersPosition = this.players.reduce((acc, { position, type }) => {
+      if (type !== 'thief') {
+        acc.push(position)
+      }
+      return acc
+    }, [])
+    if (playersPosition.includes(this.thief.position)) {
+      return true
+    } else {
+      return false
+    }
   }
+
   getRandomPosition() {
     const position = Math.floor(Math.random() * stations.length)
-    const playersPosition = this.players.map(({position}) => position)
-    if(playersPosition.includes(position)){
+    const playersPosition = this.players.map(({ position }) => position)
+    if (playersPosition.includes(position)) {
       return this.getRandomPosition()
     }
     return position
@@ -45,6 +57,8 @@ class Game {
     let player
     if (type === 'thief') {
       player = new Thief(id, color, position)
+      this.thief = player
+      this.currentPlayer = player
     } else {
       player = new Player(id, color, position)
     }
