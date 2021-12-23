@@ -20,53 +20,64 @@ export function Canvas(props) {
   const [canvasImage, setCanvasImage] = useState()
   const canvasRef = useRef(null)
 
-  function drawBusStation(ctx, station) {
+  function drawBusStation(ctx, x, y) {
     ctx.strokeStyle = 'red'
     ctx.lineWidth = '2'
     ctx.beginPath()
-    ctx.arc(583.85, 204.85, 24, 0, 360)
+    ctx.arc((x - .15), (y - .15), 24, 0, 360)
     ctx.stroke()
   }
 
-  function drawTaxiStation(ctx, station) {
+  function drawTaxiStation(ctx, x, y) {
     ctx.strokeStyle = 'black'
     ctx.lineWidth = '3'
     ctx.beginPath()
-    ctx.arc(584, 205, 21, 0, 360)
+    ctx.arc(x, y, 21, 0, 360)
     ctx.stroke()
   }
 
-  function drawNumberStation(ctx, station, stationId) {
-    ctx.roundRect((584 - 23), (205 - 12.5), 46, 25, 5)
+  function drawNumberStation(ctx, x, y, stationId, fillColor) {
+    ctx.roundRect((x - 23), (y - 12.5), 46, 25, 5)
     ctx.strokeStyle = '#000000'
     ctx.lineWidth = '1.5'
-    ctx.fillStyle = '#FFFFFF';
+    ctx.fillStyle = fillColor;
     ctx.fill();
     ctx.stroke()
     ctx.font = '600 20px sans-serif'
     ctx.fillStyle = '#000000';
     ctx.textAlign = 'center'
-    ctx.fillText('23',584, (205 + 6.45))
+    ctx.fillText(stationId, x, (y + 6.45))
   }
 
-  function drawStation(ctx, station, stationId) {
-    // const {x, y} = station
+  function drawStation(ctx, station = {}, stationId) {
+    const { x, y, subway, taxi, bus } = station
     ctx.fillStyle = '#FFFFFF'
     ctx.beginPath()
-    ctx.arc(584, 205, 19, 0, 360)
+    ctx.arc(x, y, 19, 0, 360)
     ctx.fill()
-    drawTaxiStation(ctx, station)
-    drawBusStation(ctx, station)
-    drawNumberStation(ctx)
+
+ 
+    if (taxi) drawTaxiStation(ctx, x, y)
+
+    if (bus) drawBusStation(ctx, x, y)
+
+    const fillColorNumberStation = subway ? '#92d9ff' : '#FFFFFF'
+    drawNumberStation(ctx, x, y, stationId, fillColorNumberStation)
   }
   function draw(ctx, frameCount) {
     if (canvasImage) {
       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
       ctx.drawImage(canvasImage, 0, 0)
-      for(let station in stations){
-        console.log(station)
+      for (let stationId in stations) {
+        
       }
-      drawStation(ctx)
+      stations.forEach((station, stationId) => {
+        drawStation(ctx, station, stationId)
+      })
+      // Guia para o preenchimento manual das stations
+      // ctx.beginPath()
+      // ctx.arc(1372, 409, 21, 0, 360)
+      // ctx.stroke()
     }
   }
 
@@ -89,7 +100,7 @@ export function Canvas(props) {
     let animationFrameId
 
     //Our draw came here
-    function render(){
+    function render() {
       frameCount++
       draw(context, frameCount)
     }
@@ -97,9 +108,17 @@ export function Canvas(props) {
 
   }, [draw])
 
+  function getMouseClick(event){
+    const canvas = event.target
+    const size = canvas.getBoundingClientRect()
+    const x = (event.clientX - size.left)
+    const y = (event.clientY - size.top)
+    console.log(x, y)
+  }
+
   return (
     <div style={{ overflow: 'auto' }}>
-      <canvas ref={canvasRef} {...props} width={1760} height={960} />
+      <canvas onClick={getMouseClick} ref={canvasRef} {...props} width={1770} height={960} />
     </div>
   )
 }

@@ -1,249 +1,103 @@
-const stations = {
-  1: {
-    x: 25,
-    y: 50,
-    taxiTo: ['2', '4'],
-    metroTo: ['5']
-  },
-  2: {
-    x: 80,
-    y: 50,
-    taxiTo: ['1']
-  },
-  3: {
-    x: 80,
-    y: 50,
-    taxiTo: ['2']
-  },
-  4: {
-    x: 80,
-    y: 50,
-  },
-  5: {
-    x: 80,
-    y: 50,
-  },
-  6: {
-    x: 80,
-    y: 50,
-  },
-  7: {
-    x: 80,
-    y: 50,
-  },
-  8: {
-    x: 80,
-    y: 50,
-  },
-  9: {
-    x: 80,
-    y: 50,
-  },
-  11: {
-    x: 80,
-    y: 50,
-  },
-  12: {
-    x: 80,
-    y: 50,
-  },
-  13: {
-    x: 80,
-    y: 50,
-  },
-  14: {
-    x: 80,
-    y: 50,
-  },
-  15: {
-    x: 80,
-    y: 50,
-  },
-  16: {
-    x: 80,
-    y: 50,
-  },
-  17: {
-    x: 80,
-    y: 50,
-  },
-  18: {
-    x: 80,
-    y: 50,
-  },
-  19: {
-    x: 80,
-    y: 50,
-  },
-  20: {
-    x: 80,
-    y: 50,
-  },
-  21: {
-    x: 80,
-    y: 50,
-  },
-  22: {
-    x: 80,
-    y: 50,
-  },
-  23: {
-    x: 80,
-    y: 50,
-  },
-  24: {
-    x: 80,
-    y: 50,
-  },
-  25: {
-    x: 80,
-    y: 50,
-  },
-  26: {
-    x: 80,
-    y: 50,
-  },
-  27: {
-    x: 80,
-    y: 50,
-  },
-  28: {
-    x: 80,
-    y: 50,
-  },
-  29: {
-    x: 80,
-    y: 50,
-  },
-  30: {
-    x: 80,
-    y: 50,
-  },
-  31: {
-    x: 80,
-    y: 50,
-  },
-  32: {
-    x: 80,
-    y: 50,
-  },
-  33: {
-    x: 80,
-    y: 50,
-  },
-  34: {
-    x: 80,
-    y: 50,
-  },
-  35: {
-    x: 80,
-    y: 50,
-  },
-  36: {
-    x: 80,
-    y: 50,
-  },
-  37: {
-    x: 80,
-    y: 50,
-  },
-  38: {
-    x: 80,
-    y: 50,
-  },
-  39: {
-    x: 80,
-    y: 50,
-  },
-  40: {
-    x: 80,
-    y: 50,
-  },
-  41: {
-    x: 80,
-    y: 50,
-  },
-  42: {
-    x: 80,
-    y: 50,
-  },
-  43: {
-    x: 80,
-    y: 50,
-  },
-  44: {
-    x: 80,
-    y: 50,
-  },
-  45: {
-    x: 80,
-    y: 50,
-  },
-  46: {
-    x: 80,
-    y: 50,
-  },
-  47: {
-    x: 80,
-    y: 50,
-  },
-  48: {
-    x: 80,
-    y: 50,
-  },
-  49: {
-    x: 80,
-    y: 50,
-  },
-  50: {
-    x: 80,
-    y: 50,
-  },
-  51: {
-    x: 80,
-    y: 50,
-  },
-  52: {
-    x: 80,
-    y: 50,
-  },
-  53: {
-    x: 80,
-    y: 50,
-  },
-  54: {
-    x: 80,
-    y: 50,
-  },
-  55: {
-    x: 80,
-    y: 50,
-  },
-  56: {
-    x: 80,
-    y: 50,
-  },
-  57: {
-    x: 80,
-    y: 50,
-  },
-  58: {
-    x: 80,
-    y: 50,
-  },
-  59: {
-    x: 80,
-    y: 50,
-  },
-  60: {
-    x: 80,
-    y: 50,
-  },
-  61: {
-    x: 80,
-    y: 50,
-  },
-}
+const stations = [
+  { taxi: true, x: 1717, y: 103, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 1628, y: 179, taxiTo: [], metroTo: [], onibusTo: [], },
+  { taxi: true, x: 1710, y: 266, taxiTo: [], metroTo: [], onibusTo: [], },
+  { taxi: true, x: 1623, y: 342, taxiTo: [], metroTo: [], onibusTo: [], },
+  { taxi: true, x: 1546, y: 257, taxiTo: [], metroTo: [], onibusTo: [], },
+  { taxi: true, x: 1701, y: 430, taxiTo: [], metroTo: [], onibusTo: [], },
+  { taxi: true, x: 1448, y: 143, taxiTo: [], metroTo: [], onibusTo: [], },
+  { taxi: true, x: 1512, y: 87, taxiTo: [], metroTo: [], onibusTo: [], },
+  { taxi: true, x: 1761, y: 681, taxiTo: [], metroTo: [], onibusTo: [], },
+  { taxi: true, x: 1761, y: 516, taxiTo: [], metroTo: [], onibusTo: [], },
+  { taxi: true, bus: true, x: 1692, y: 594, taxiTo: [], metroTo: [], onibusTo: [], },
+  { taxi: true, x: 1614, y: 508, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 1536, y: 422, taxiTo: [], metroTo: [], onibusTo: [], },
+  { taxi: true, x: 1461, y: 332, taxiTo: [], metroTo: [], onibusTo: [], },
+  { taxi: true, bus: true, x: 1303, y: 163, taxiTo: [], metroTo: [], onibusTo: [], },
+  { taxi: true, x: 1189, y: 29, taxiTo: [], metroTo: [], onibusTo: [], },
+  { taxi: true, x: 1210, y: 155, taxiTo: [], metroTo: [], onibusTo: [], },
+  { taxi: true, x: 1218, y: 239, taxiTo: [], metroTo: [], onibusTo: [], },
+  { taxi: true, x: 1292, y: 325, taxiTo: [], metroTo: [], onibusTo: [], },
+  { taxi: true, x: 1372, y: 409, taxiTo: [], metroTo: [], onibusTo: [], },
+  { taxi: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { taxi: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { taxi: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { taxi: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { taxi: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { taxi: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], },
+  { subway: true, taxi: true, bus: true, x: 0, y: 0, taxiTo: [], metroTo: [], onibusTo: [], }
+]
 
 
-module.exports = {stations}
+module.exports = { stations }
