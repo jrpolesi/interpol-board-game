@@ -29,9 +29,7 @@ export function TransportsButtons() {
     })
     setCurrentVehicle(vehicle.toLowerCase())
   }
-  useEffect(() => {
-    console.log(buttons)
-  }, [buttons])
+  
   useEffect(() => {
     if (amIReady) {
       const player = players.find(({ id }) => id === socket.id)

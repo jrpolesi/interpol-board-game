@@ -14,9 +14,6 @@ function GameProvider(props) {
   const [stations, setStations] = useState()
   const [players, setPlayers] = useState()
   const [currentVehicle, setCurrentVehicle] = useState()
-  useEffect(() => {
-    console.log(currentVehicle)
-  }, [currentVehicle])
 
   useEffect(() => {
     const connection = io('/')
@@ -53,7 +50,7 @@ function GameProvider(props) {
     }
   }, [room, amIReady])
 
-  const values = { socket, room, colorsAndTypesAvailable,setColorsAndTypesAvailable,  amIReady, setAmIReady, areEveryoneReady, stations, players, currentVehicle, setCurrentVehicle }
+  const values = { socket, room, colorsAndTypesAvailable, setColorsAndTypesAvailable, amIReady, setAmIReady, areEveryoneReady, stations, players, currentVehicle, setCurrentVehicle }
   return (
     <GameContext.Provider value={values}>
       {props.children}

@@ -56,13 +56,11 @@ io.on('connection', (socket) => {
   })
 
   socket.on('am-i-ready', (roomId, isReady) => {
-    console.log(roomsController.rooms[roomId])
     const user = roomsController.getUser(roomId, socket.id)
     user.isReady = isReady
     const game = roomsController.getGame(roomId)
     const {color, type} = user.preference
     game.addNewPlayer(socket.id, color, '1', type)
-    console.log(roomsController.getGame(roomId))
     io.to(roomId).emit('are-everyone-ready', roomsController.isEveryoneReady(roomId))
     if(roomsController.isEveryoneReady(roomId)){
       io.to(roomId).emit('stations', roomsController.getGame(roomId).stations)
@@ -75,6 +73,8 @@ io.on('connection', (socket) => {
       const preferences = roomsController.getPreferencesAvailable(roomId)
       io.to(roomId).emit('new-change', preferences)
   })
+
+  //Criar evento para mudança de posição 
 })
 
 server.listen(port, () => {
