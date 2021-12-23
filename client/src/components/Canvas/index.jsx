@@ -74,10 +74,6 @@ export function Canvas(props) {
       stations.forEach((station, stationId) => {
         drawStation(ctx, station, stationId)
       })
-      // Guia para o preenchimento manual das stations
-      ctx.beginPath()
-      ctx.arc(1444, 30, 21, 0, 360)
-      ctx.stroke()
     }
   }
 
@@ -96,15 +92,8 @@ export function Canvas(props) {
 
     const canvas = canvasRef.current
     const context = canvas.getContext('2d')
-    let frameCount = 0
-    let animationFrameId
 
-    //Our draw came here
-    function render() {
-      frameCount++
-      draw(context, frameCount)
-    }
-    render()
+    draw(context)
 
   }, [draw])
 
@@ -113,7 +102,6 @@ export function Canvas(props) {
     const size = canvas.getBoundingClientRect()
     const x = (event.clientX - size.left)
     const y = (event.clientY - size.top)
-    console.log(x, y)
     return { x, y }
   }
 

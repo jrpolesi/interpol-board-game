@@ -25,7 +25,7 @@ class Game {
     this.players = []
     this.thief = ''
     this.stations = stations
-    this.currentPlayer = ''
+    this.currentPlayer = 0
     this.round = 20
   }
 
@@ -44,7 +44,7 @@ class Game {
   }
 
   getRandomPosition() {
-    const position = Math.floor(Math.random() * stations.length)
+    const position = Math.floor(Math.random() * 10) //stations.length
     const playersPosition = this.players.map(({ position }) => position)
     if (playersPosition.includes(position)) {
       return this.getRandomPosition()
@@ -58,7 +58,7 @@ class Game {
     if (type === 'thief') {
       player = new Thief(id, color, position)
       this.thief = player
-      this.currentPlayer = player
+      this.currentPlayer = this.players.length
     } else {
       player = new Player(id, color, position)
     }

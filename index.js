@@ -66,8 +66,10 @@ io.on('connection', (socket) => {
     game.addNewPlayer(socket.id, color, type)
     io.to(roomId).emit('are-everyone-ready', roomsController.isEveryoneReady(roomId))
     if (roomsController.isEveryoneReady(roomId)) {
-      io.to(roomId).emit('stations', roomsController.getGame(roomId).stations)
-      io.to(roomId).emit('players-update', roomsController.getGame(roomId).players)
+      io.to(roomId).emit('stations', game.stations)
+      const players = game.players
+      const currentPlayer = players[game.currentPlayer].id
+      io.to(roomId).emit('players-update', players, currentPlayer)
     }
   })
 
@@ -81,8 +83,12 @@ io.on('connection', (socket) => {
   socket.on('player-change-position', (roomId, playersUpdate) => {
     const game = roomsController.getGame(roomId)
     game.players = playersUpdate
-    console.log(game.players)
-    io.to(roomId).emit('players-update', game.players)
+    game.currentPlayer++
+    if(game.currentPlayer >= game.players.length){
+      game.currentPlayer = 0
+    }
+    const currentPlayer = game.players[game.currentPlayer].id
+    io.to(roomId).emit('players-update', game.players, currentPlayer)
   })
 })
 server.listen(port, () => {
