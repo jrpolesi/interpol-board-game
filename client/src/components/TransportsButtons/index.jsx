@@ -3,34 +3,54 @@ import { GameContext } from '../../Contexts/GameContext'
 
 
 export function TransportsButtons() {
-  const { socket, players, stations, amIReady } = useContext(GameContext)
-  const [availableVehicles, setAvailableVehicle] = useState({})
-  const [currentVehicle, setCurrentVehicle] = useState()
-  const [oldTarget, setOldTarget] = useState()
+  const { socket, players, stations, amIReady, setCurrentVehicle } = useContext(GameContext)
+  const [buttons, setButtons] = useState([])
   function handleClick(event) {
-    if(oldTarget)
-      oldTarget.style.backgroundColor = 'transparent'
-    if (event.target.tagName === 'BUTTON') {
-      event.target.style.backgroundColor = 'red'
+    if(event.target.tagName !== 'BUTTON'){
+      return
     }
-    setOldTarget(event.target)
+    const vehicle = event.target.innerText
+    setButtons((prevState) => {
+      return prevState.map(({ name, currentVehicle, ...rest }) => {
+        if (name === vehicle) {
+          return {
+            ...rest,
+            name,
+            currentVehicle: true
+          }
+        } else {
+          return {
+            ...rest,
+            name,
+            currentVehicle: false
+          }
+        }
+      })
+    })
+    setCurrentVehicle(vehicle.toLowerCase())
   }
+  useEffect(() => {
+    console.log(buttons)
+  }, [buttons])
   useEffect(() => {
     if (amIReady) {
       const player = players.find(({ id }) => id === socket.id)
       const { taxiTo, barcoTo, onibusTo, metroTo } = stations[player.position]
-      setAvailableVehicle({ taxiTo, barcoTo, onibusTo, metroTo })
+      setButtons([
+        { name: 'Barco', disabled: !barcoTo, currentVehicle: false },
+        { name: 'Metro', disabled: !metroTo, currentVehicle: false },
+        { name: 'Onibus', disabled: !onibusTo, currentVehicle: false },
+        { name: 'Taxi', disabled: !taxiTo, currentVehicle: false }
+      ])
     }
   }, [players])
   return (
-    <>
-      {currentVehicle && <span>{currentVehicle}</span>}
       <div onClick={handleClick}>
-        <button disabled={!availableVehicles.barcoTo} >Barco</button>
-        <button disabled={!availableVehicles.metroTo} >Metro</button>
-        <button disabled={!availableVehicles.onibusTo} >Ônibus</button>
-        <button disabled={!availableVehicles.taxiTo} >Taxi</button>
+        {
+          buttons.map(({ name, disabled, currentVehicle }) => {
+            return <button key={name} disabled={disabled} style={{ backgroundColor: `${currentVehicle ? 'green' : 'transparent'}` }}>{name}</button>
+          })
+        }
       </div>
-    </>
   )
 }
