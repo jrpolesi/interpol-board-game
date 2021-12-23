@@ -16,7 +16,7 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, width, height, ra
 }
 
 export function Canvas(props) {
-  const { stations, currentVehicle, socket, room, players, setPlayers } = useContext(GameContext)
+  const { stations, currentVehicle, socket, room, players, setPlayers, canIPlay } = useContext(GameContext)
   const [canvasImage, setCanvasImage] = useState()
   const canvasRef = useRef(null)
 
@@ -92,9 +92,7 @@ export function Canvas(props) {
 
     const canvas = canvasRef.current
     const context = canvas.getContext('2d')
-
     draw(context)
-
   }, [draw])
 
   function getMouseClick(event) {
@@ -138,6 +136,10 @@ export function Canvas(props) {
   }
 
   function handleClick(event) {
+    console.log(canIPlay)
+    if(!canIPlay){
+      return false
+    }
     const click = getMouseClick(event)
     const clickedStation = getStationClicked(click)
     const player = players.find(({ id }) => id === socket.id)
@@ -145,7 +147,7 @@ export function Canvas(props) {
     const currentPosition = stations[currentIndexPosition]
     const availablesStations = currentPosition[`${currentVehicle}To`]
     if (!availablesStations || !clickedStation) {
-      return
+      return false
     }
     if (availablesStations && availablesStations.includes(clickedStation.id)) {
       changePlayerPosition(player.id, clickedStation.id)
