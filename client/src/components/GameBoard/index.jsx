@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, { useContext } from 'react'
 import { ModalNewPlayer } from '../../components/ModalNewPlayer'
 import { GameContext } from '../../Contexts/GameContext'
 import { Canvas } from '../Canvas'
@@ -10,9 +10,9 @@ export function GameBoard() {
   const { areEveryoneReady } = useContext(GameContext)
   return (
     <section>
-    {areEveryoneReady || <ModalNewPlayer />}
-   <Canvas />
-    <GameInteraction />
+      {areEveryoneReady || <ModalNewPlayer />}
+      <GameInteraction />
+      <Canvas />
     </section>
   )
 }

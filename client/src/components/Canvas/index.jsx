@@ -71,6 +71,7 @@ export function Canvas(props) {
       for (let stationId in stations) {
         
       }
+      console.log(stations)
       stations.forEach((station, stationId) => {
         drawStation(ctx, station, stationId)
       })

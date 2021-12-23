@@ -33,6 +33,7 @@ export function TransportsButtons() {
   useEffect(() => {
     if (amIReady) {
       const player = players.find(({ id }) => id === socket.id)
+      console.log(stations[player.position])
       const { taxiTo, barcoTo, onibusTo, metroTo } = stations[player.position]
       setButtons([
         { name: 'Barco', disabled: !barcoTo, currentVehicle: false },
