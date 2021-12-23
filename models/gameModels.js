@@ -29,6 +29,16 @@ class Game {
     this.round = 20
   }
 
+  finishGame(){
+    if(this.round <= 0){
+      return 'Thief Wins'
+    } else if (this.thiefWasArrested()) {
+      return 'Police Wins'
+    } else {
+      return false
+    }
+  }
+
   thiefWasArrested() {
     const playersPosition = this.players.reduce((acc, { position, type }) => {
       if (type !== 'thief') {

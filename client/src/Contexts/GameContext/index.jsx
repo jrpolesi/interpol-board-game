@@ -39,7 +39,11 @@ function GameProvider(props) {
       socket.on('stations', (stations) => {
         setStations(stations)
       })
-      socket.on('players-update', (players, currentPlayer) => {
+      socket.on('players-update', (players, currentPlayer, endGame) => {
+        if(endGame){
+          console.log(endGame)
+          return 
+        }
         console.log(players)
         setPlayers(players)
         if(currentPlayer === socket.id){

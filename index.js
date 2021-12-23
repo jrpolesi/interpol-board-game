@@ -88,7 +88,8 @@ io.on('connection', (socket) => {
       game.currentPlayer = 0
     }
     const currentPlayer = game.players[game.currentPlayer].id
-    io.to(roomId).emit('players-update', game.players, currentPlayer)
+    let endGame = game.finishGame()
+    io.to(roomId).emit('players-update', game.players, currentPlayer, endGame)
   })
 })
 server.listen(port, () => {
