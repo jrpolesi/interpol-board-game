@@ -31,8 +31,17 @@ class Game {
   thiefWasArrested() {
 
   }
+  getRandomPosition() {
+    const position = Math.floor(Math.random() * stations.length)
+    const playersPosition = this.players.map(({position}) => position)
+    if(playersPosition.includes(position)){
+      return this.getRandomPosition()
+    }
+    return position
+  }
 
-  addNewPlayer(id, color, position, type) {
+  addNewPlayer(id, color, type) {
+    const position = this.getRandomPosition()
     let player
     if (type === 'thief') {
       player = new Thief(id, color, position)
