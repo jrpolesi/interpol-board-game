@@ -134,19 +134,32 @@ export function Canvas(props) {
     return clickedStation
   }
 
+  function changePlayerPosition(playerId, newPosition) {
+    setPlayers(prevState => prevState.map((player) => {
+      if (player.id === playerId) {
+        return {
+          ...player,
+          position: newPosition
+        }
+      } else {
+        return player
+      }
+    })
+    )
+  }
+
   function handleClick(event) {
     const click = getMouseClick(event)
     const clickedStation = getStationClicked(click)
-    const currentIndexPosition = players.find(({ id }) => id === socket.id).position
+    const player = players.find(({ id }) => id === socket.id)
+    const currentIndexPosition = player.position
     const currentPosition = stations[currentIndexPosition]
     const availablesStations = currentPosition[`${currentVehicle}To`]
-    console.log(availablesStations)
-    console.log(currentVehicle, currentPosition)
     if (!availablesStations || !clickedStation) {
       return
     }
     if (availablesStations && availablesStations.includes(clickedStation.id)) {
-      console.log(true)
+      changePlayerPosition(player.id, clickedStation.id)
     }
   }
 
