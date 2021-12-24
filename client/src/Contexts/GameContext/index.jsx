@@ -8,14 +8,14 @@ const GameContext = createContext()
 function GameProvider(props) {
   const [socket, setSocket] = useState()
   const [room] = useState(useParams().roomId)
-  const [colorsAndTypesAvailable, setColorsAndTypesAvailable] = useState()
+  const [players, setPlayers] = useState()
+  const [stations, setStations] = useState([])
   const [amIReady, setAmIReady] = useState(false)
   const [areEveryoneReady, setareEveryoneReady] = useState(false)
-  const [stations, setStations] = useState([])
-  const [players, setPlayers] = useState()
-  const [currentVehicle, setCurrentVehicle] = useState()
   const [canIPlay, setCanIPlay] = useState(false)
   const [me, setMe] = useState()
+  const [colorsAndTypesAvailable, setColorsAndTypesAvailable] = useState()
+  const [currentVehicle, setCurrentVehicle] = useState()
 
   useEffect(() => {
     const connection = io('/')
