@@ -31,29 +31,33 @@ function GameProvider(props) {
           window.location.href = "/"
         }
       })
+
       socket.on('preferencesAvailable', (preferences) => {
         setColorsAndTypesAvailable(preferences)
       })
+
       socket.on('are-everyone-ready', (areReady) => {
         setareEveryoneReady(areReady)
       })
+
       socket.on('stations', (stations) => {
         setStations(stations)
       })
+
       socket.on('players-update', (players, currentPlayer, endGame) => {
         if (!me) {
           setMe(players.find(({ id }) => id === socket.id))
         }
+
         if (endGame) {
           console.log(endGame)
           return
         }
+
         setPlayers(players)
-        if (currentPlayer === socket.id) {
-          setCanIPlay(true)
-        } else {
-          setCanIPlay(false)
-        }
+
+        const myTurn = currentPlayer === socket.id ? true : false
+        setCanIPlay(myTurn)
       })
     }
   }, [socket, room])
