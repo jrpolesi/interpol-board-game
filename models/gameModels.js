@@ -38,6 +38,7 @@ class Game {
 
   thiefWasArrested() {
     let thiefPosition
+
     const playersPosition = this.players.reduce((acc, { position, type }) => {
       if (type === 'thief') {
         thiefPosition = position
@@ -46,6 +47,7 @@ class Game {
       }
       return acc
     }, [])
+
     if (playersPosition.includes(thiefPosition)) {
       return true
     } else {
@@ -55,7 +57,9 @@ class Game {
 
   getRandomPosition() {
     const position = Math.floor(Math.random() * 10) //stations.length
+
     const playersPosition = this.players.map(({ position }) => position)
+
     if (playersPosition.includes(position)) {
       return this.getRandomPosition()
     }
@@ -65,6 +69,7 @@ class Game {
   addNewPlayer(id, color, type) {
     const position = this.getRandomPosition()
     let player
+
     if (type === 'thief') {
       player = new Thief(id, color, position)
       this.thief = player
@@ -72,6 +77,7 @@ class Game {
     } else {
       player = new Player(id, color, position)
     }
+    
     this.players.push(player)
   }
 
@@ -87,7 +93,7 @@ class Game {
 
   updateThiefHidden(thief) {
     const roundsToShow = [19, 13, 7, 2]
-    console.log(this.round)
+
     if (roundsToShow.includes(this.round)) {
       thief.hidden = false
     } else {
