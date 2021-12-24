@@ -47,7 +47,7 @@ export function TransportsButtons() {
     <Container onClick={handleClick}>
       {
         buttons.map(({ name, disabled, currentVehicle }) => {
-          return <button key={name} disabled={disabled} className={currentVehicle && 'button--active'} >{name}</button>
+          return <button key={name} disabled={disabled} className={currentVehicle ? 'button--active' : ''} >{name}</button>
         })
       }
     </Container>
