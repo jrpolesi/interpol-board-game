@@ -1,13 +1,16 @@
 import React from 'react'
+import { GameInfo } from '../GameInfo'
 import { GameControls } from '../GameControls'
 import { ThiefHistoric } from '../ThiefHistoric'
+import { Container } from './style'
 
 
 export function GameInteraction() {
   return (
-    <section>
+    <Container>
+      <GameInfo />
       <GameControls />
       <ThiefHistoric />
-    </section>
+    </Container>
   )
 }

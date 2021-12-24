@@ -1,6 +1,8 @@
 import React, { useRef, useEffect, useContext, useState } from 'react'
 import { GameContext } from '../../Contexts/GameContext'
 import backgroundCanvas from '../../assets/images/game-board.jpg'
+import { Container } from './style'
+import { GameInteraction } from '../GameInteraction'
 
 CanvasRenderingContext2D.prototype.roundRect = function (x, y, width, height, radius) {
   if (width < 2 * radius) radius = width / 2;
@@ -173,8 +175,9 @@ export function Canvas(props) {
   }
 
   return (
-    <div style={{ overflow: 'auto' }}>
+    <Container style={{ overflow: 'auto' }}>
+      <GameInteraction />
       <canvas onClick={handleClick} ref={canvasRef} {...props} width={1770} height={970} />
-    </div>
+    </Container>
   )
 }
