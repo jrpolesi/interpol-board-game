@@ -1,8 +1,11 @@
 import React from 'react'
+import { Container } from './style'
 
 
 export function WaitOthersPlayers() {
   return (
-    <h3>Aguarde os outros jogadores</h3>
+    <Container>
+      Aguarde os outros jogadores...
+    </Container>
   )
 }

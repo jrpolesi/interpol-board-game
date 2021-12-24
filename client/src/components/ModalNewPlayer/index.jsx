@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { GameContext } from '../../Contexts/GameContext'
 import { FormNewPlayer } from '../FormNewPlayer'
+import { WaitOthersPlayers } from '../WaitOthersPlayers'
 import { Container } from './style'
 
 
@@ -11,7 +12,7 @@ export function ModalNewPlayer() {
       <section>
         <h2>Escolha seu pino</h2>
         {amIReady ?
-          "Aguarde os outros jogadores" :
+          <WaitOthersPlayers /> :
           <FormNewPlayer />}
       </section>
     </Container>

@@ -26,6 +26,7 @@ export const Container = styled.div`
     z-index: 1;
 
     h2{
+      margin-bottom: 20px;
       text-align: center;
       font-size: 24px;
     }

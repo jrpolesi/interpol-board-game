@@ -2,7 +2,7 @@ import styled from "styled-components"
 import { themes } from "../../Themes/themes"
 
 export const Container = styled.form`
-  margin: 20px auto 0;
+  margin: 0 auto;
   display: flex ;
   flex-direction: column;
   align-items: center;
@@ -31,7 +31,7 @@ export const Container = styled.form`
     font-size: 18px;
     font-weight: 600;
     flex-shrink: 0;
-    
+
     &:hover{
       background: ${themes.color.button_green_hover};
     }
