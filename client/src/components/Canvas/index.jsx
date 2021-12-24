@@ -64,16 +64,37 @@ export function Canvas(props) {
     const fillColorNumberStation = subway ? '#92d9ff' : '#FFFFFF'
     drawNumberStation(ctx, x, y, stationId, fillColorNumberStation)
   }
+
+  function drawPlayer(ctx, x, y, color) {
+    ctx.strokeStyle = color
+    ctx.lineWidth = '6'
+    ctx.beginPath()
+    ctx.arc(x, (y - 1), 15, 0, 360)
+    ctx.stroke()
+    ctx.lineWidth = '4'
+    ctx.beginPath()
+    ctx.arc(x, (y - 1), 28, 0, 360)
+    ctx.stroke()
+  }
+
   function draw(ctx) {
     if (canvasImage) {
       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
       ctx.drawImage(canvasImage, 0, 0)
-      for (let stationId in stations) {
 
-      }
       stations.forEach((station, stationId) => {
         drawStation(ctx, station, stationId)
       })
+
+      if (players) {
+        players.forEach(({ position, color, hidden, id }) => {
+          const { x, y } = stations[position]
+          console.log(socket.id, id)
+          if (!hidden || (hidden && socket.id === id)) {
+            drawPlayer(ctx, x, y, color)
+          }
+        })
+      }
     }
   }
 
@@ -137,7 +158,7 @@ export function Canvas(props) {
 
   function handleClick(event) {
     console.log(canIPlay)
-    if(!canIPlay){
+    if (!canIPlay) {
       return false
     }
     const click = getMouseClick(event)
