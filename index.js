@@ -75,6 +75,7 @@ io.on('connection', (socket) => {
 
   socket.on('player-change-preferences', (roomId, changes) => {
     roomsController.updateUserPreferences(roomId, socket.id, changes)
+
     const preferences = roomsController.getPreferencesAvailable(roomId)
     io.to(roomId).emit('new-change', preferences)
   })
@@ -83,16 +84,24 @@ io.on('connection', (socket) => {
     const game = roomsController.getGame(roomId)
     game.players = playersUpdate
     game.currentPlayer++
-    game.round--
-    if(game.currentPlayer >= game.players.length){
+    if (game.currentPlayer >= game.players.length) {
       game.currentPlayer = 0
+      game.round--
     }
-    const currentPlayer = game.players[game.currentPlayer].id
+    const currentPlayer = game.players[game.currentPlayer]
+    
+    const player = game.getPlayer(socket.id)
+    if (player.type === 'thief') {
+      game.updateThiefHidden(player)
+    }
+
+    console.log(game.players)
+
     let endGame = game.finishGame()
-    console.log(endGame)
-    io.to(roomId).emit('players-update', game.players, currentPlayer, endGame)
+    io.to(roomId).emit('players-update', game.players, currentPlayer.id, endGame)
   })
 })
+
 server.listen(port, () => {
   console.log('Server Running on port ' + port)
 }).on('error', (err) => {

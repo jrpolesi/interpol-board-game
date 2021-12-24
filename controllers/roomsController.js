@@ -61,6 +61,7 @@ const roomsControllers = {
 
   updateUserPreferences(roomId, userId, newPreference) {
     const user = this.getUser(roomId, userId)
+
     if (user) {
       user.preference = newPreference
     }

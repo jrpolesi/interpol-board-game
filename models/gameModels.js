@@ -7,9 +7,6 @@ class Player {
     this.type = 'police'
     this.hidden = false
   }
-  move(transport, toPosition) {
-
-  }
 }
 
 class Thief extends Player {
@@ -49,7 +46,6 @@ class Game {
       }
       return acc
     }, [])
-    console.log(thiefPosition)
     if (playersPosition.includes(thiefPosition)) {
       return true
     } else {
@@ -87,6 +83,16 @@ class Game {
   getPlayer(playerId) {
     const player = this.players.find(({ id }) => id === playerId)
     return player
+  }
+
+  updateThiefHidden(thief) {
+    const roundsToShow = [19, 13, 7, 2]
+    console.log(this.round)
+    if (roundsToShow.includes(this.round)) {
+      thief.hidden = false
+    } else {
+      thief.hidden = true
+    }
   }
 }
 
