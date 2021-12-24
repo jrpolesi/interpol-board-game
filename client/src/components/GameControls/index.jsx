@@ -1,13 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { GameContext } from '../../Contexts/GameContext'
 import { ThiefButtons } from '../ThiefButtons'
 import { TransportsButtons } from '../TransportsButtons'
 
 
 export function GameControls() {
+  const { me } = useContext(GameContext)
+
   return (
     <section>
       <TransportsButtons />
-      <ThiefButtons />
+      {me && me.type === 'thief' && <ThiefButtons />}
     </section>
   )
 }

@@ -102,7 +102,6 @@ export function Canvas(props) {
         if (players) {
           players.forEach(({ position, color, hidden, id }) => {
             const { x, y } = stations[position]
-            console.log(hidden)
             if (!hidden || (hidden && socket.id === id)) {
               drawPlayer(ctx, x, y, color)
             }

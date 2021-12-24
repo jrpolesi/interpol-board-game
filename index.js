@@ -95,8 +95,6 @@ io.on('connection', (socket) => {
       game.updateThiefHidden(player)
     }
 
-    console.log(game.players)
-
     let endGame = game.finishGame()
     io.to(roomId).emit('players-update', game.players, currentPlayer.id, endGame)
   })
