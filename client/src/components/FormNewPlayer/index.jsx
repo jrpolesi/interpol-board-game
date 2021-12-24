@@ -22,11 +22,11 @@ export function FormNewPlayer() {
         const newPreferences = JSON.parse(JSON.stringify(changes))
         newPreferences.color.push(formData.color)
         newPreferences.type.push(formData.type)
-        setColorsAndTypesAvailable((prevState) =>{
+        setColorsAndTypesAvailable((prevState) => {
           return newPreferences
         })
       })
-      return () => {socket.off('new-change')}
+      return () => { socket.off('new-change') }
     }
   }, [formData, socket, room])
 
@@ -43,14 +43,53 @@ export function FormNewPlayer() {
     }))
   }
 
+  function translateColor(color) {
+    switch (color) {
+      case 'green':
+        return 'verde'
+        break
+      case 'blue':
+        return 'azul'
+        break
+      case 'red':
+        return 'vermelho'
+        break
+      case 'yellow':
+        return 'amarelo'
+        break
+      case 'black':
+        return 'preto'
+        break
+    }
+  }
+
+  function translateType(type){
+    const number = type.slice(-1)
+    return type.includes('police') ? `policia ${number}` : 'ladrão'
+  }
+
   return (
     <Container onSubmit={toggleAmIReady}>
       {colorsAndTypesAvailable && formData && <>
         <select name="type" id="playerColor" value={formData.type} onChange={handleChange}>
-          {colorsAndTypesAvailable.type.map((type) => <option key={type} value={type}>{type}</option>)}
+          {colorsAndTypesAvailable.type.map((type) => (
+            <option
+              key={type}
+              value={type}
+            >
+              {translateType(type)}
+            </option>
+          ))}
         </select>
         <select name="color" id="playerColor" value={formData.color} onChange={handleChange}>
-          {colorsAndTypesAvailable.color.map((color) => <option key={color} value={color}>{color}</option>)}
+          {colorsAndTypesAvailable.color.map((color) => (
+            <option
+              key={color}
+              value={color}
+            >
+              {translateColor(color)}
+            </option>
+          ))}
         </select>
         <button>Estou pronto</button></>}
     </Container>
