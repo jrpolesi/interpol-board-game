@@ -2,15 +2,19 @@ const express = require('express')
 const app = express()
 const http = require('http')
 const server = http.createServer(app)
-const port = 3001
+const path = require("path")
 const cors = require('cors')
+const port = 3001
 app.use(cors())
+
 
 const roomsController = require('./controllers/roomsController')
 
 const roomRoutes = require('./routes/roomRoutes')
 app.use('/rooms', roomRoutes)
 
+// app.use('/', express.static(path.join(__dirname, "client/build")))
+// app.use('/:roomId', express.static(path.join(__dirname, "client/build")))
 // const gameRoutes = require('./routes/gameRoutes')
 // app.use('/game', gameRoutes)
 
