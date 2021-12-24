@@ -6,12 +6,12 @@ import { Game } from './pages/Game'
 function App() {
   return (
     <div className="App">
-        <Router>
-          <Routes>
-            <Route path="/:roomId" element={<Game />}/>
-            <Route path="/" element={<Home />}/>
-          </Routes>
-        </Router>
+      <Router>
+        <Routes>
+          <Route path="/:roomId" element={<Game />} />
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </Router>
     </div>
   );
 }

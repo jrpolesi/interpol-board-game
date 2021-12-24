@@ -15,6 +15,7 @@ function GameProvider(props) {
   const [players, setPlayers] = useState()
   const [currentVehicle, setCurrentVehicle] = useState()
   const [canIPlay, setCanIPlay] = useState(false)
+  const [me, setMe] = useState()
 
   useEffect(() => {
     const connection = io('/')
@@ -40,13 +41,15 @@ function GameProvider(props) {
         setStations(stations)
       })
       socket.on('players-update', (players, currentPlayer, endGame) => {
-        if(endGame){
-          console.log(endGame)
-          return 
+        if (!me) {
+          setMe(players.find(({ id }) => id === socket.id))
         }
-        console.log(players)
+        if (endGame) {
+          console.log(endGame)
+          return
+        }
         setPlayers(players)
-        if(currentPlayer === socket.id){
+        if (currentPlayer === socket.id) {
           setCanIPlay(true)
         } else {
           setCanIPlay(false)
@@ -61,7 +64,8 @@ function GameProvider(props) {
     }
   }, [room, amIReady])
 
-  const values = { socket, room, colorsAndTypesAvailable, setColorsAndTypesAvailable, amIReady, setAmIReady, areEveryoneReady, stations, players,setPlayers, currentVehicle, setCurrentVehicle, canIPlay }
+  const values = { socket, room, colorsAndTypesAvailable, setColorsAndTypesAvailable, amIReady, setAmIReady, areEveryoneReady, stations, players, setPlayers, currentVehicle, setCurrentVehicle, canIPlay, me }
+
   return (
     <GameContext.Provider value={values}>
       {props.children}

@@ -16,7 +16,7 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, width, height, ra
 }
 
 export function Canvas(props) {
-  const { stations, currentVehicle, socket, room, players, setPlayers, canIPlay } = useContext(GameContext)
+  const { stations, currentVehicle, socket, room, players, canIPlay } = useContext(GameContext)
   const [canvasImage, setCanvasImage] = useState()
   const canvasRef = useRef(null)
 
@@ -77,26 +77,6 @@ export function Canvas(props) {
     ctx.stroke()
   }
 
-  function draw(ctx) {
-    if (canvasImage) {
-      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-      ctx.drawImage(canvasImage, 0, 0)
-
-      stations.forEach((station, stationId) => {
-        drawStation(ctx, station, stationId)
-      })
-
-      if (players) {
-        players.forEach(({ position, color, hidden, id }) => {
-          const { x, y } = stations[position]
-          console.log(socket.id, id)
-          if (!hidden || (hidden && socket.id === id)) {
-            drawPlayer(ctx, x, y, color)
-          }
-        })
-      }
-    }
-  }
 
   useEffect(() => {
     const image = new Image();
@@ -107,14 +87,31 @@ export function Canvas(props) {
   }, [])
 
   useEffect(() => {
-    if (stations) {
 
+    function draw(ctx) {
+      if (canvasImage) {
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+        ctx.drawImage(canvasImage, 0, 0)
+
+        stations.forEach((station, stationId) => {
+          drawStation(ctx, station, stationId)
+        })
+
+        if (players) {
+          players.forEach(({ position, color, hidden, id }) => {
+            const { x, y } = stations[position]
+            if (!hidden || (hidden && socket.id === id)) {
+              drawPlayer(ctx, x, y, color)
+            }
+          })
+        }
+      }
     }
 
     const canvas = canvasRef.current
     const context = canvas.getContext('2d')
     draw(context)
-  }, [draw])
+  })
 
   function getMouseClick(event) {
     const canvas = event.target
@@ -177,7 +174,7 @@ export function Canvas(props) {
 
   return (
     <div style={{ overflow: 'auto' }}>
-      <canvas onClick={handleClick} ref={canvasRef} {...props} width={1770} height={960} />
+      <canvas onClick={handleClick} ref={canvasRef} {...props} width={1770} height={970} />
     </div>
   )
 }

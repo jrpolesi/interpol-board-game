@@ -31,7 +31,7 @@ export function FormNewPlayer() {
 
       return () => { socket.off('new-change') }
     }
-  }, [formData, socket, room])
+  }, [formData, socket, room, setColorsAndTypesAvailable])
 
   function toggleAmIReady(event) {
     event.preventDefault()
@@ -65,6 +65,8 @@ export function FormNewPlayer() {
       case 'black':
         return 'preto'
         break
+      default:
+        return
     }
   }
 
