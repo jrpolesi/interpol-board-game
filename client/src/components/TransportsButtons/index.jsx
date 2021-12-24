@@ -1,15 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { GameContext } from '../../Contexts/GameContext'
 import { Container } from './style'
-
+import Metro from '../../assets/images/Metro.svg'
+import Onibus from '../../assets/images/Onibus.svg'
+import Taxi from '../../assets/images/Taxi.svg'
+import Barco from '../../assets/images/Barco.svg'
+const images = {Metro, Onibus, Taxi, Barco}
 
 export function TransportsButtons() {
   const { socket, players, stations, amIReady, setCurrentVehicle } = useContext(GameContext)
   const [buttons, setButtons] = useState([])
+
   function handleClick(event) {
-    if (event.target.tagName !== 'BUTTON') {
-      return
-    }
+
     const vehicle = event.target.innerText
     setButtons((prevState) => {
       return prevState.map(({ name, currentVehicle, ...rest }) => {
@@ -28,6 +31,7 @@ export function TransportsButtons() {
         }
       })
     })
+
     setCurrentVehicle(vehicle.toLowerCase())
   }
 
@@ -44,10 +48,13 @@ export function TransportsButtons() {
     }
   }, [players])
   return (
-    <Container onClick={handleClick}>
+    <Container >
       {
         buttons.map(({ name, disabled, currentVehicle }) => {
-          return <button key={name} disabled={disabled} className={currentVehicle ? 'button--active' : ''} >{name}</button>
+          return <button key={name} onClick={handleClick} disabled={disabled} className={currentVehicle ? 'button--active' : ''} >
+            <img src={images[name]} alt={name} />
+            <span>{name}</span>
+          </button>
         })
       }
     </Container>
