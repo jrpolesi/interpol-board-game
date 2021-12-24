@@ -29,8 +29,8 @@ class Game {
     this.round = 20
   }
 
-  finishGame(){
-    if(this.round <= 0){
+  finishGame() {
+    if (this.round <= 0) {
       return 'Thief Wins'
     } else if (this.thiefWasArrested()) {
       return 'Police Wins'
@@ -40,13 +40,17 @@ class Game {
   }
 
   thiefWasArrested() {
+    let thiefPosition
     const playersPosition = this.players.reduce((acc, { position, type }) => {
-      if (type !== 'thief') {
+      if (type === 'thief') {
+        thiefPosition = position
+      } else {
         acc.push(position)
       }
       return acc
     }, [])
-    if (playersPosition.includes(this.thief.position)) {
+    console.log(thiefPosition)
+    if (playersPosition.includes(thiefPosition)) {
       return true
     } else {
       return false

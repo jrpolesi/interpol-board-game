@@ -79,7 +79,6 @@ io.on('connection', (socket) => {
     io.to(roomId).emit('new-change', preferences)
   })
 
-  //Criar evento para mudança de posição 
   socket.on('player-change-position', (roomId, playersUpdate) => {
     const game = roomsController.getGame(roomId)
     game.players = playersUpdate
@@ -90,6 +89,7 @@ io.on('connection', (socket) => {
     }
     const currentPlayer = game.players[game.currentPlayer].id
     let endGame = game.finishGame()
+    console.log(endGame)
     io.to(roomId).emit('players-update', game.players, currentPlayer, endGame)
   })
 })

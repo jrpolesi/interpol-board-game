@@ -1,5 +1,5 @@
 const stations = [
-  { taxi: true, x: 1717, y: 103, taxiTo: [0, 7]},
+  { taxi: true, x: 1717, y: 103, taxiTo: [1, 7]},
   { subway: true, taxi: true, bus: true, x: 1628, y: 179, taxiTo: [0, 2, 4, 7], metroTo: [12, 35], onibusTo: [14, 12]},
   { taxi: true, x: 1710, y: 266, taxiTo: [1, 3]},
   { taxi: true, x: 1623, y: 342, taxiTo: [2, 4, 5, 12] },
