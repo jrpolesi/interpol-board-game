@@ -10,6 +10,7 @@ export const Container = styled.form`
   width: 90%;
   max-width: 300px;
   font-size: 30px;
+
   select{
     padding: 5px 15px;
     text-transform: uppercase; 
@@ -19,6 +20,7 @@ export const Container = styled.form`
     background-color: white;
     flex-shrink: 0;
   }
+
   button{
     width: 200px ;
     padding: 8px 15px;
@@ -29,6 +31,7 @@ export const Container = styled.form`
     font-size: 18px;
     font-weight: 600;
     flex-shrink: 0;
+    
     &:hover{
       background: ${themes.color.button_green_hover};
     }

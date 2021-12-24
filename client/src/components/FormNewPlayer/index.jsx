@@ -11,6 +11,7 @@ export function FormNewPlayer() {
     if (!formData && colorsAndTypesAvailable) {
       const color = colorsAndTypesAvailable.color[0]
       const type = colorsAndTypesAvailable.type[0]
+
       setFormData({ color, type })
     }
   }, [colorsAndTypesAvailable, formData])
@@ -18,25 +19,29 @@ export function FormNewPlayer() {
   useEffect(() => {
     if (socket && formData) {
       socket.emit('player-change-preferences', room, formData)
+
       socket.on('new-change', (changes) => {
         const newPreferences = JSON.parse(JSON.stringify(changes))
+
         newPreferences.color.push(formData.color)
         newPreferences.type.push(formData.type)
-        setColorsAndTypesAvailable((prevState) => {
-          return newPreferences
-        })
+
+        setColorsAndTypesAvailable(newPreferences)
       })
+
       return () => { socket.off('new-change') }
     }
   }, [formData, socket, room])
 
   function toggleAmIReady(event) {
     event.preventDefault()
+
     setAmIReady(prevState => !prevState)
   }
 
-  function handleChange(event) {
+  function handleFormChange(event) {
     const { name, value } = event.target
+
     setFormData((prevState) => ({
       ...prevState,
       [name]: value
@@ -63,7 +68,7 @@ export function FormNewPlayer() {
     }
   }
 
-  function translateType(type){
+  function translateType(type) {
     const number = type.slice(-1)
     return type.includes('police') ? `policia ${number}` : 'ladrão'
   }
@@ -71,7 +76,7 @@ export function FormNewPlayer() {
   return (
     <Container onSubmit={toggleAmIReady}>
       {colorsAndTypesAvailable && formData && <>
-        <select name="type" id="playerColor" value={formData.type} onChange={handleChange}>
+        <select name="type" id="playerColor" value={formData.type} onChange={handleFormChange}>
           {colorsAndTypesAvailable.type.map((type) => (
             <option
               key={type}
@@ -81,7 +86,7 @@ export function FormNewPlayer() {
             </option>
           ))}
         </select>
-        <select name="color" id="playerColor" value={formData.color} onChange={handleChange}>
+        <select name="color" id="playerColor" value={formData.color} onChange={handleFormChange}>
           {colorsAndTypesAvailable.color.map((color) => (
             <option
               key={color}
@@ -91,7 +96,8 @@ export function FormNewPlayer() {
             </option>
           ))}
         </select>
-        <button>Estou pronto</button></>}
+        <button>Estou pronto</button>
+      </>}
     </Container>
   )
 }
