@@ -10,8 +10,6 @@ const port = process.env.PORT || 3001
 
 const roomsController = require('./controllers/roomsController')
 
-const roomRoutes = require('./routes/roomRoutes')
-app.use('/rooms', roomRoutes)
 
 app.use(express.static(path.join(__dirname, "client", "build")))
 
@@ -19,6 +17,8 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
 });
 
+const roomRoutes = require('./routes/roomRoutes')
+app.use('/rooms', roomRoutes)
 
 const { Server } = require('socket.io')
 
