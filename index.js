@@ -96,7 +96,7 @@ io.on('connection', (socket) => {
     
     const player = game.getPlayer(socket.id)
     if (player.type === 'thief') {
-      game.thiefMovements.push({round: game.round, vehicle})
+      game.thiefMovements.push({round: game.round + 1, vehicle})
       game.updateThiefHidden(player)
     }
 

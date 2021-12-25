@@ -48,7 +48,8 @@ function GameProvider(props) {
 
       socket.on('players-update', (players, currentPlayer, thiefMovements, round, endGame) => {
         setRound(round)
-        console.log(thiefMovements, round)
+        setThiefMovements(thiefMovements)
+        
         if (!me) {
           setMe(players.find(({ id }) => id === socket.id))
         }
@@ -72,7 +73,7 @@ function GameProvider(props) {
     }
   }, [room, amIReady])
 
-  const values = { socket, room, colorsAndTypesAvailable, setColorsAndTypesAvailable, amIReady, setAmIReady, areEveryoneReady, stations, players, setPlayers, currentVehicle, setCurrentVehicle, canIPlay, me, round }
+  const values = { socket, room, colorsAndTypesAvailable, setColorsAndTypesAvailable, amIReady, setAmIReady, areEveryoneReady, stations, players, setPlayers, currentVehicle, setCurrentVehicle, canIPlay, me, round, thiefMovements }
 
   return (
     <GameContext.Provider value={values}>
