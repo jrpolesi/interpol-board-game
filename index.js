@@ -15,8 +15,6 @@ app.use('/rooms', roomRoutes)
 
 app.use('/', express.static(path.join(__dirname, "client/build")))
 app.use('/:roomId', express.static(path.join(__dirname, "client/build")))
-const gameRoutes = require('./routes/gameRoutes')
-app.use('/game', gameRoutes)
 
 const { Server } = require('socket.io')
 
