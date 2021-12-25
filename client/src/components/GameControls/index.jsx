@@ -11,7 +11,7 @@ export function GameControls() {
   return (
     <Container>
       <TransportsButtons />
-      {me && me.type === 'thief' && <ThiefButtons />}
+      {/* {me && me.type === 'thief' && <ThiefButtons />} */}
     </Container>
   )
 }
