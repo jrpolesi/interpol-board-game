@@ -4,14 +4,19 @@ import { Container } from './style'
 
 
 export function GameInfo() {
-  const { me, canIPlay } = useContext(GameContext)
+  const { me, canIPlay, round } = useContext(GameContext)
   return (
     <Container>
-      {me && <div style={{color: me.color}}>
-        {me.color}
-      </div>}
+      {me &&
+        <div style={{ color: me.color }}>
+          {me.color}
+        </div>
+      }
       <div>
         {canIPlay ? 'Sua vez de jogar' : 'É a vez dos seus colegas'}
+      </div>
+      <div>
+        Round: {round}
       </div>
     </Container>
   )
