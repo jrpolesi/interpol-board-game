@@ -13,8 +13,12 @@ const roomsController = require('./controllers/roomsController')
 const roomRoutes = require('./routes/roomRoutes')
 app.use('/rooms', roomRoutes)
 
-app.use('/', express.static(path.resolve(__dirname, "client/build")))
-app.use('/:roomId', express.static(path.resolve(__dirname, "client/build")))
+app.use(express.static(path.join(__dirname, "client", "build")))
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+});
+
 
 const { Server } = require('socket.io')
 
