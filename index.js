@@ -5,7 +5,7 @@ const server = http.createServer(app)
 const path = require("path")
 const cors = require('cors')
 const port = 3001
-app.use(cors())
+// app.use(cors())
 
 
 const roomsController = require('./controllers/roomsController')
@@ -13,19 +13,21 @@ const roomsController = require('./controllers/roomsController')
 const roomRoutes = require('./routes/roomRoutes')
 app.use('/rooms', roomRoutes)
 
-// app.use('/', express.static(path.join(__dirname, "client/build")))
-// app.use('/:roomId', express.static(path.join(__dirname, "client/build")))
-// const gameRoutes = require('./routes/gameRoutes')
-// app.use('/game', gameRoutes)
+app.use('/', express.static(path.join(__dirname, "client/build")))
+app.use('/:roomId', express.static(path.join(__dirname, "client/build")))
+const gameRoutes = require('./routes/gameRoutes')
+app.use('/game', gameRoutes)
 
 const { Server } = require('socket.io')
 
 // Quando vamos conectar com alguma pagina fora do proprio server, nós devemos configurar o cors pelo prorio socket, e não pelo express
-const io = new Server(server, {
-  cors: {
-    origin: "*",
-  }
-})
+// const io = new Server(server, {
+//   cors: {
+//     origin: "*",
+//   }
+// })
+
+const io = new Server(server)
 
 io.on('connection', (socket) => {
   socket.on('join-room', (roomId, callback) => {
