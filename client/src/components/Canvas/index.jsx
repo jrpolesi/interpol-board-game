@@ -152,7 +152,7 @@ export function Canvas(props) {
         return player
       }
     })
-    socket.emit('player-change-position', room, newPlayers)
+    socket.emit('player-change-position', room, newPlayers, currentVehicle)
   }
 
   function handleClick(event) {

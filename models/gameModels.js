@@ -24,6 +24,7 @@ class Game {
     this.stations = stations
     this.currentPlayer = 0
     this.round = 20
+    this.thiefMovements = []
   }
 
   finishGame() {

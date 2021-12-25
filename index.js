@@ -73,7 +73,7 @@ io.on('connection', (socket) => {
       io.to(roomId).emit('stations', game.stations)
       const players = game.players
       const currentPlayer = players[game.currentPlayer].id
-      io.to(roomId).emit('players-update', players, currentPlayer)
+      io.to(roomId).emit('players-update', players, currentPlayer, game.thiefMovements, game.round, game.finishGame())
     }
   })
 
@@ -84,7 +84,7 @@ io.on('connection', (socket) => {
     io.to(roomId).emit('new-change', preferences)
   })
 
-  socket.on('player-change-position', (roomId, playersUpdate) => {
+  socket.on('player-change-position', (roomId, playersUpdate, vehicle) => {
     const game = roomsController.getGame(roomId)
     game.players = playersUpdate
     game.currentPlayer++
@@ -96,11 +96,12 @@ io.on('connection', (socket) => {
     
     const player = game.getPlayer(socket.id)
     if (player.type === 'thief') {
+      game.thiefMovements.push({round: game.round, vehicle})
       game.updateThiefHidden(player)
     }
 
     let endGame = game.finishGame()
-    io.to(roomId).emit('players-update', game.players, currentPlayer.id, endGame)
+    io.to(roomId).emit('players-update', game.players, currentPlayer.id, game.thiefMovements, game.round, endGame)
   })
 })
 

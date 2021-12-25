@@ -16,6 +16,8 @@ function GameProvider(props) {
   const [me, setMe] = useState()
   const [colorsAndTypesAvailable, setColorsAndTypesAvailable] = useState()
   const [currentVehicle, setCurrentVehicle] = useState()
+  const [thiefMovements, setThiefMovements] = useState([])
+  const [round, setRound] = useState()
 
   useEffect(() => {
     const connection = io('/')
@@ -44,7 +46,9 @@ function GameProvider(props) {
         setStations(stations)
       })
 
-      socket.on('players-update', (players, currentPlayer, endGame) => {
+      socket.on('players-update', (players, currentPlayer, thiefMovements, round, endGame) => {
+        setRound(round)
+        console.log(thiefMovements, round)
         if (!me) {
           setMe(players.find(({ id }) => id === socket.id))
         }
