@@ -5,5 +5,6 @@ export const Container = styled.div`
   position: absolute;
   top: 10px;
   left: 50%;
+  width: 100vw;
   transform: translateX(-50%);
 `
