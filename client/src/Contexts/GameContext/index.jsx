@@ -55,7 +55,7 @@ function GameProvider(props) {
         }
 
         if (endGame) {
-          console.log(endGame)
+          alert(endGame)
           return
         }
 
