@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { themes } from '../../Themes/themes'
+import { themes } from '../../themes/themes'
 
 export const Container = styled.div`
   position: absolute;

@@ -16,7 +16,7 @@ export function NewRoomModal() {
 
   return (
     <Container>
-      <h2>Jogar</h2>
+      <h2>JOGAR</h2>
       <button onClick={handleClick}>Criar nova sala</button>
     </Container>
   )
