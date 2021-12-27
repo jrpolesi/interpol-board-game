@@ -20,6 +20,7 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, width, height, ra
 export function Canvas(props) {
   const { stations, currentVehicle, socket, room, players, canIPlay } = useContext(GameContext)
   const [canvasImage, setCanvasImage] = useState()
+  const [dimension, setDimension] = useState({ w: 1770, h: 970 })
   const canvasRef = useRef(null)
 
   function drawBusStation(ctx, x, y) {
@@ -52,7 +53,10 @@ export function Canvas(props) {
   }
 
   function drawStation(ctx, station = {}, stationId) {
-    const { x, y, subway, taxi, bus } = station
+    let { x, y, subway, taxi, bus } = station
+    x *= dimension.w / 1770
+    y *= dimension.h / 970
+
     ctx.fillStyle = '#FFFFFF'
     ctx.beginPath()
     ctx.arc(x, y, 19, 0, 360)
@@ -91,16 +95,18 @@ export function Canvas(props) {
   useEffect(() => {
 
     function draw(ctx) {
-      if (canvasImage ) {
+      if (canvasImage) {
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-        ctx.drawImage(canvasImage, 0, 0)
+        ctx.drawImage(canvasImage, 0, 0, dimension.w, dimension.h)
 
         if (stations && players) {
           stations.forEach((station, stationId) => {
             drawStation(ctx, station, stationId)
           })
           players.forEach(({ position, color, hidden, id }) => {
-            const { x, y } = stations[position]
+            let { x, y } = stations[position]
+            x *= dimension.w / 1770
+            y *= dimension.h / 970
             if (!hidden || (hidden && socket.id === id)) {
               drawPlayer(ctx, x, y, color)
             }
@@ -112,13 +118,14 @@ export function Canvas(props) {
     const canvas = canvasRef.current
     const context = canvas.getContext('2d')
     draw(context)
-  }, [stations, players, canvasImage])
+  }, [stations, players, canvasImage, dimension])
 
   function getMouseClick(event) {
     const canvas = event.target
     const size = canvas.getBoundingClientRect()
     const x = (event.clientX - size.left)
     const y = (event.clientY - size.top)
+    console.log(x, y)
     return { x, y }
   }
 
@@ -129,13 +136,15 @@ export function Canvas(props) {
   function getStationClicked(click) {
     let clickedStation
     for (let i = 0; i < stations.length; i++) {
-      const { x, y } = stations[i]
+      let { x, y } = stations[i]
+      x *= dimension.w / 1770
+      y *= dimension.h / 970
       if (checkAxisHitbox(click.x, x, 17) && checkAxisHitbox(click.y, y, 17)) {
         clickedStation = { id: i, ...stations[i] }
         break
       }
     }
-
+    console.log(clickedStation)
     return clickedStation
   }
 
@@ -172,10 +181,28 @@ export function Canvas(props) {
     }
   }
 
+  function handleResize() {
+    let w = window.innerWidth
+    if(w > 1750){
+      w = 1750
+    } else if(w < 1400){
+      w = 1400
+    }
+
+    const h = (w * 970) / 1770
+    setDimension({ w, h })
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize)
+
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   return (
     <Container style={{ overflow: 'auto' }}>
       <GameInteraction />
-      <canvas onClick={handleClick} ref={canvasRef} {...props} width={1770} height={970} />
+      <canvas onClick={handleClick} ref={canvasRef} {...props} width={dimension.w} height={dimension.h} />
     </Container>
   )
 }

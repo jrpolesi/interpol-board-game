@@ -22,7 +22,7 @@ export const Container = styled.section`
   border-radius: 5px;
   padding: 20px 35px;
   background-color: white;
-  margin: 40vh auto;
+  margin: 20vh auto 100px;
   animation: ${sirene} 1s infinite;
 
   h2{

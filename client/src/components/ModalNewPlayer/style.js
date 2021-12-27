@@ -21,8 +21,8 @@ export const Container = styled.div`
     background-color: white;
     border-radius: 20px;
     box-shadow: 3px 3px 10px 1px ${themes.color.background_modal};
-    width: 90%;
-    max-width: 400px;
+    max-width: 60%;
+    width: 400px;
     padding: 50px;
     z-index: 2;
 
