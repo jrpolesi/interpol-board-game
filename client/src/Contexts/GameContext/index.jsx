@@ -11,7 +11,7 @@ function GameProvider(props) {
   const [colorsAndTypesAvailable, setColorsAndTypesAvailable] = useState()
   const [currentPreferences, setCurrentPreferences] = useState()
   const [players, setPlayers] = useState()
-  const [stations, setStations] = useState([])
+  const [stations, setStations] = useState()
   const [amIReady, setAmIReady] = useState(false)
   const [areEveryoneReady, setareEveryoneReady] = useState(false)
   const [me, setMe] = useState()

@@ -4,7 +4,7 @@ const http = require('http')
 const server = http.createServer(app)
 const path = require("path")
 const cors = require('cors')
-const port = process.env.PORT || 3001
+const port = process.env.PORT || 3000
 // app.use(cors())
 
 
@@ -114,10 +114,6 @@ io.on('connection', (socket) => {
   socket.on('restart', (roomId) => {
     const room = roomsController.rooms[roomId]
     room.restart()
-    const game = roomsController.getGame(roomId)
-    const currentPlayer = game.players[game.currentPlayer]
-    const endGame = game.finishGame()
-
   })
 })
 

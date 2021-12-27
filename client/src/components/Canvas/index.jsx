@@ -91,15 +91,14 @@ export function Canvas(props) {
   useEffect(() => {
 
     function draw(ctx) {
-      if (canvasImage) {
+      if (canvasImage ) {
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
         ctx.drawImage(canvasImage, 0, 0)
 
-        stations.forEach((station, stationId) => {
-          drawStation(ctx, station, stationId)
-        })
-
-        if (players) {
+        if (stations && players) {
+          stations.forEach((station, stationId) => {
+            drawStation(ctx, station, stationId)
+          })
           players.forEach(({ position, color, hidden, id }) => {
             const { x, y } = stations[position]
             if (!hidden || (hidden && socket.id === id)) {
@@ -113,7 +112,7 @@ export function Canvas(props) {
     const canvas = canvasRef.current
     const context = canvas.getContext('2d')
     draw(context)
-  })
+  }, [stations, players, canvasImage])
 
   function getMouseClick(event) {
     const canvas = event.target
