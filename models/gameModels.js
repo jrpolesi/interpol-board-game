@@ -57,7 +57,7 @@ class Game {
   }
 
   getRandomPosition() {
-    const position = Math.floor(Math.random() * 4) //stations.length
+    const position = Math.floor(Math.random() * stations.length)
 
     const playersPosition = this.players.map(({ position }) => position)
 
