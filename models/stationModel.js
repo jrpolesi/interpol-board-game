@@ -14,7 +14,7 @@ const stations = [
   { subway: true, taxi: true, bus: true, x: 1536, y: 422, taxiTo: [3, 11, 13, 20], metroTo: [1, 24, 29], onibusTo: [10, 1, 28], },
   { taxi: true, x: 1461, y: 332, taxiTo: [4, 12, 14, 19]},
   { taxi: true, bus: true, x: 1303, y: 163, taxiTo: [6, 13, 17],onibusTo: [1, 18, 34] },
-  { taxi: true, x: 1189, y: 29, taxiTo: [], metroTo: [], onibusTo: [], },
+  { taxi: true, x: 1189, y: 29, taxiTo: []},
   { taxi: true, x: 1210, y: 155, taxiTo: [], metroTo: [], onibusTo: [], },
   { taxi: true, x: 1218, y: 239, taxiTo: [], metroTo: [], onibusTo: [], },
   { bus: true, taxi: true, x: 1292, y: 325, taxiTo: [], metroTo: [], onibusTo: [], },

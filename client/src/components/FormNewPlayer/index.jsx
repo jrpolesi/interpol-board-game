@@ -4,34 +4,35 @@ import { Container } from './style'
 
 
 export function FormNewPlayer() {
-  const { colorsAndTypesAvailable, setColorsAndTypesAvailable, setAmIReady, socket, room } = useContext(GameContext)
-  const [formData, setFormData] = useState()
+  const { colorsAndTypesAvailable, setColorsAndTypesAvailable, setAmIReady, socket, room, currentPreferences, setCurrentPreferences } = useContext(GameContext)
 
-  useEffect(() => {
-    if (!formData && colorsAndTypesAvailable) {
-      const color = colorsAndTypesAvailable.color[0]
-      const type = colorsAndTypesAvailable.type[0]
+  // useEffect(() => {
+  //   if (!formData && colorsAndTypesAvailable) {
+  //     const color = colorsAndTypesAvailable.color[0]
+  //     const type = colorsAndTypesAvailable.type[0]
 
-      setFormData({ color, type })
-    }
-  }, [colorsAndTypesAvailable, formData])
+  //     setFormData({ color, type })
+  //   }
+  // }, [colorsAndTypesAvailable, formData])
 
-  useEffect(() => {
-    if (socket && formData) {
-      socket.emit('player-change-preferences', room, formData)
+  // useEffect(() => {
+  //   console.log({ currentPreferences })
+  //   if (socket && currentPreferences) {
+  //     console.log('emited')
+  //     socket.emit('player-change-preferences', room, currentPreferences)
 
-      socket.on('new-change', (changes) => {
-        const newPreferences = JSON.parse(JSON.stringify(changes))
+  //     // socket.on('new-change', (changes) => {
+  //     //   const newPreferences = JSON.parse(JSON.stringify(changes))
 
-        newPreferences.color.push(formData.color)
-        newPreferences.type.push(formData.type)
+  //     //   newPreferences.color.push(formData.color)
+  //     //   newPreferences.type.push(formData.type)
 
-        setColorsAndTypesAvailable(newPreferences)
-      })
+  //     //   setColorsAndTypesAvailable(newPreferences)
+  //     // })
 
-      return () => { socket.off('new-change') }
-    }
-  }, [formData, socket, room, setColorsAndTypesAvailable])
+  //     return () => { socket.off('new-change') }
+  //   }
+  // }, [formData, socket, room, setColorsAndTypesAvailable])
 
   function toggleAmIReady(event) {
     event.preventDefault()
@@ -42,7 +43,7 @@ export function FormNewPlayer() {
   function handleFormChange(event) {
     const { name, value } = event.target
 
-    setFormData((prevState) => ({
+    setCurrentPreferences((prevState) => ({
       ...prevState,
       [name]: value
     }))
@@ -74,11 +75,11 @@ export function FormNewPlayer() {
     const number = type.slice(-1)
     return type.includes('police') ? `policia ${number}` : 'ladrão'
   }
-
+console.log(currentPreferences, colorsAndTypesAvailable)
   return (
-    <Container onSubmit={toggleAmIReady}>
-      {colorsAndTypesAvailable && formData && <>
-        <select name="type" id="playerColor" value={formData.type} onChange={handleFormChange}>
+    <Container onSubmit={toggleAmIReady} className='userPreferences'>
+      {colorsAndTypesAvailable && currentPreferences && <>
+        <select name="type" id="playerColor" value={currentPreferences.type} onChange={handleFormChange}>
           {colorsAndTypesAvailable.type.map((type) => (
             <option
               key={type}
@@ -88,7 +89,7 @@ export function FormNewPlayer() {
             </option>
           ))}
         </select>
-        <select name="color" id="playerColor" value={formData.color} onChange={handleFormChange}>
+        <select name="color" id="playerColor" value={currentPreferences.color} onChange={handleFormChange}>
           {colorsAndTypesAvailable.color.map((color) => (
             <option
               key={color}
