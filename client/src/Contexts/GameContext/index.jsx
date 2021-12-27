@@ -51,9 +51,9 @@ function GameProvider(props) {
           setMe(players.find(({ id }) => id === socket.id))
         }
         if (endGame) {
-          // socket.emit('restart', room)
+          alert(endGame)
+          socket.emit('restart', room)
           setAmIReady(false)
-          // alert(endGame)
         }
 
         setPlayers(players)
@@ -86,7 +86,6 @@ function GameProvider(props) {
     }
   }, [socket, currentPreferences])
 
-  console.log('hehe', socket )
 
   useEffect(() => {
     if (socket && currentPreferences) {

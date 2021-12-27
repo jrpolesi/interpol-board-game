@@ -6,33 +6,6 @@ import { Container } from './style'
 export function FormNewPlayer() {
   const { colorsAndTypesAvailable, setColorsAndTypesAvailable, setAmIReady, socket, room, currentPreferences, setCurrentPreferences } = useContext(GameContext)
 
-  // useEffect(() => {
-  //   if (!formData && colorsAndTypesAvailable) {
-  //     const color = colorsAndTypesAvailable.color[0]
-  //     const type = colorsAndTypesAvailable.type[0]
-
-  //     setFormData({ color, type })
-  //   }
-  // }, [colorsAndTypesAvailable, formData])
-
-  // useEffect(() => {
-  //   console.log({ currentPreferences })
-  //   if (socket && currentPreferences) {
-  //     console.log('emited')
-  //     socket.emit('player-change-preferences', room, currentPreferences)
-
-  //     // socket.on('new-change', (changes) => {
-  //     //   const newPreferences = JSON.parse(JSON.stringify(changes))
-
-  //     //   newPreferences.color.push(formData.color)
-  //     //   newPreferences.type.push(formData.type)
-
-  //     //   setColorsAndTypesAvailable(newPreferences)
-  //     // })
-
-  //     return () => { socket.off('new-change') }
-  //   }
-  // }, [formData, socket, room, setColorsAndTypesAvailable])
 
   function toggleAmIReady(event) {
     event.preventDefault()
