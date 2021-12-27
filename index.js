@@ -40,7 +40,7 @@ io.on('connection', (socket) => {
         socket.join(roomId)
         roomsController.addUserRoom(roomId, socket.id)
         const preferences = roomsController.getPreferencesAvailable(roomId)
-        io.to(socket.id).emit('preferencesAvailable', preferences)
+        io.to(socket.id).emit('preferences', preferences)
         // console.log(io.sockets.adapter.rooms.get(roomId))
       } else {
         callback({ err: 'room is full' })
@@ -69,15 +69,18 @@ io.on('connection', (socket) => {
   socket.on('am-i-ready', (roomId, isReady) => {
     const user = roomsController.getUser(roomId, socket.id)
     user.isReady = isReady
-    const game = roomsController.getGame(roomId)
-    const { color, type } = user.preference
-    game.addNewPlayer(socket.id, color, type)
     io.to(roomId).emit('are-everyone-ready', roomsController.isEveryoneReady(roomId))
-    if (roomsController.isEveryoneReady(roomId)) {
-      io.to(roomId).emit('stations', game.stations)
-      const players = game.players
-      const currentPlayer = players[game.currentPlayer].id
-      io.to(roomId).emit('players-update', players, currentPlayer, game.thiefMovements, game.round, game.finishGame())
+    if (isReady) {
+      const game = roomsController.getGame(roomId)
+      const { color, type } = user.preference
+      game.addNewPlayer(socket.id, color, type)
+
+      if (roomsController.isEveryoneReady(roomId)) {
+        io.to(roomId).emit('stations', game.stations)
+        const players = game.players
+        const currentPlayer = players[game.currentPlayer].id
+        io.to(roomId).emit('players-update', players, currentPlayer, game.thiefMovements, game.round, game.finishGame())
+      }
     }
   })
 
@@ -85,7 +88,7 @@ io.on('connection', (socket) => {
     roomsController.updateUserPreferences(roomId, socket.id, changes)
 
     const preferences = roomsController.getPreferencesAvailable(roomId)
-    io.to(roomId).emit('new-change', preferences)
+    io.to(roomId).emit('preferences', preferences)
   })
 
   socket.on('player-change-position', (roomId, playersUpdate, vehicle) => {
@@ -97,15 +100,24 @@ io.on('connection', (socket) => {
       game.round--
     }
     const currentPlayer = game.players[game.currentPlayer]
-    
+
     const player = game.getPlayer(socket.id)
     if (player.type === 'thief') {
-      game.thiefMovements.push({round: game.round + 1, vehicle})
+      game.thiefMovements.push({ round: game.round + 1, vehicle })
       game.updateThiefHidden(player)
     }
 
-    let endGame = game.finishGame()
+    const endGame = game.finishGame()
     io.to(roomId).emit('players-update', game.players, currentPlayer.id, game.thiefMovements, game.round, endGame)
+  })
+
+  socket.on('restart', (roomId) => {
+    const room = roomsController.rooms[roomId]
+    room.restart()
+    const game = roomsController.getGame(roomId)
+    const currentPlayer = game.players[game.currentPlayer]
+    const endGame = game.finishGame()
+
   })
 })
 

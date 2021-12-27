@@ -36,7 +36,7 @@ export function TransportsButtons() {
   }
 
   useEffect(() => {
-    if (amIReady) {
+    if (amIReady && players) {
       const player = players.find(({ id }) => id === socket.id)
       const { taxiTo, barcoTo, onibusTo, metroTo } = stations[player.position]
       setButtons([
@@ -46,7 +46,7 @@ export function TransportsButtons() {
         { name: 'Taxi', disabled: !taxiTo, currentVehicle: false }
       ])
     }
-  }, [players])
+  }, [players, amIReady])
   return (
     <Container >
       {

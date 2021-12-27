@@ -8,13 +8,14 @@ const GameContext = createContext()
 function GameProvider(props) {
   const [socket, setSocket] = useState()
   const [room] = useState(useParams().roomId)
+  const [colorsAndTypesAvailable, setColorsAndTypesAvailable] = useState()
+  const [currentPreferences, setCurrentPreferences] = useState()
   const [players, setPlayers] = useState()
   const [stations, setStations] = useState([])
   const [amIReady, setAmIReady] = useState(false)
   const [areEveryoneReady, setareEveryoneReady] = useState(false)
-  const [canIPlay, setCanIPlay] = useState(false)
   const [me, setMe] = useState()
-  const [colorsAndTypesAvailable, setColorsAndTypesAvailable] = useState()
+  const [canIPlay, setCanIPlay] = useState(false)
   const [currentVehicle, setCurrentVehicle] = useState()
   const [thiefMovements, setThiefMovements] = useState([])
   const [round, setRound] = useState()
@@ -34,10 +35,6 @@ function GameProvider(props) {
         }
       })
 
-      socket.on('preferencesAvailable', (preferences) => {
-        setColorsAndTypesAvailable(preferences)
-      })
-
       socket.on('are-everyone-ready', (areReady) => {
         setareEveryoneReady(areReady)
       })
@@ -49,14 +46,14 @@ function GameProvider(props) {
       socket.on('players-update', (players, currentPlayer, thiefMovements, round, endGame) => {
         setRound(round)
         setThiefMovements(thiefMovements)
-        
+
         if (!me) {
           setMe(players.find(({ id }) => id === socket.id))
         }
-
         if (endGame) {
           alert(endGame)
-          return
+          socket.emit('restart', room)
+          setAmIReady(false)
         }
 
         setPlayers(players)
@@ -69,11 +66,56 @@ function GameProvider(props) {
 
   useEffect(() => {
     if (socket) {
+      socket.on('preferences', (preferences) => {
+        if (currentPreferences) {
+          setColorsAndTypesAvailable({
+            color: [currentPreferences.color, ...preferences.color],
+            type: [currentPreferences.type, ...preferences.type]
+          })
+        } else {
+          const color = preferences.color[0]
+          const type = preferences.type[0]
+          setCurrentPreferences({ color, type })
+          setColorsAndTypesAvailable(preferences)
+        }
+      })
+      return () => { socket.off('preferences') }
+    }
+  }, [socket, currentPreferences])
+
+
+  useEffect(() => {
+    if (socket && currentPreferences) {
+      socket.emit('player-change-preferences', room, currentPreferences)
+    }
+  }, [socket, currentPreferences])
+
+  useEffect(() => {
+    if (socket) {
       socket.emit('am-i-ready', room, amIReady)
     }
   }, [room, amIReady])
 
-  const values = { socket, room, colorsAndTypesAvailable, setColorsAndTypesAvailable, amIReady, setAmIReady, areEveryoneReady, stations, players, setPlayers, currentVehicle, setCurrentVehicle, canIPlay, me, round, thiefMovements }
+  const values = {
+    socket,
+    room,
+    colorsAndTypesAvailable,
+    setColorsAndTypesAvailable,
+    amIReady,
+    setAmIReady,
+    areEveryoneReady,
+    stations,
+    players,
+    setPlayers,
+    currentVehicle,
+    setCurrentVehicle,
+    canIPlay,
+    me,
+    round,
+    thiefMovements,
+    setCurrentPreferences,
+    currentPreferences
+  }
 
   return (
     <GameContext.Provider value={values}>
