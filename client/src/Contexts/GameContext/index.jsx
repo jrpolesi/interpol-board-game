@@ -8,17 +8,17 @@ const GameContext = createContext()
 function GameProvider(props) {
   const [socket, setSocket] = useState()
   const [room] = useState(useParams().roomId)
+  const [colorsAndTypesAvailable, setColorsAndTypesAvailable] = useState()
+  const [currentPreferences, setCurrentPreferences] = useState()
   const [players, setPlayers] = useState()
   const [stations, setStations] = useState([])
   const [amIReady, setAmIReady] = useState(false)
   const [areEveryoneReady, setareEveryoneReady] = useState(false)
-  const [canIPlay, setCanIPlay] = useState(false)
   const [me, setMe] = useState()
-  const [colorsAndTypesAvailable, setColorsAndTypesAvailable] = useState()
+  const [canIPlay, setCanIPlay] = useState(false)
   const [currentVehicle, setCurrentVehicle] = useState()
   const [thiefMovements, setThiefMovements] = useState([])
   const [round, setRound] = useState()
-  const [currentPreferences, setCurrentPreferences] = useState()
 
   useEffect(() => {
     const connection = io('/')
@@ -79,7 +79,7 @@ function GameProvider(props) {
           setColorsAndTypesAvailable(preferences)
         }
       })
-      return () => { socket.off('preferences')}
+      return () => { socket.off('preferences') }
     }
   }, [socket, currentPreferences])
 
@@ -96,7 +96,26 @@ function GameProvider(props) {
     }
   }, [room, amIReady])
 
-  const values = { socket, room, colorsAndTypesAvailable, setColorsAndTypesAvailable, amIReady, setAmIReady, areEveryoneReady, stations, players, setPlayers, currentVehicle, setCurrentVehicle, canIPlay, me, round, thiefMovements, setCurrentPreferences, currentPreferences }
+  const values = {
+    socket,
+    room,
+    colorsAndTypesAvailable,
+    setColorsAndTypesAvailable,
+    amIReady,
+    setAmIReady,
+    areEveryoneReady,
+    stations,
+    players,
+    setPlayers,
+    currentVehicle,
+    setCurrentVehicle,
+    canIPlay,
+    me,
+    round,
+    thiefMovements,
+    setCurrentPreferences,
+    currentPreferences
+  }
 
   return (
     <GameContext.Provider value={values}>
