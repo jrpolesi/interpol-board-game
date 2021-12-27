@@ -18,41 +18,44 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, width, height, ra
 }
 
 export function Canvas(props) {
-  const { stations, currentVehicle, socket, room, players, canIPlay } = useContext(GameContext)
+  const { stations, currentVehicle,setCurrentVehicle, socket, room, players, canIPlay } = useContext(GameContext)
   const [canvasImage, setCanvasImage] = useState()
   const [dimension, setDimension] = useState({ w: 1770, h: 970 })
+  const [availableStations, setAvailableStations] = useState([])
   const canvasRef = useRef(null)
 
-  function drawBusStation(ctx, x, y) {
-    ctx.strokeStyle = 'red'
+  function drawBusStation(ctx, x, y, available) {
+    ctx.strokeStyle = available ? '#ff0000' : '#e96f6f'
     ctx.lineWidth = '2'
     ctx.beginPath()
     ctx.arc((x - .15), (y - .15), 24, 0, 360)
+    ctx.fill()
     ctx.stroke()
   }
 
-  function drawTaxiStation(ctx, x, y) {
-    ctx.strokeStyle = 'black'
+  function drawTaxiStation(ctx, x, y, available) {
+    ctx.strokeStyle = available ? '#000000' : '#929292'
     ctx.lineWidth = '3'
     ctx.beginPath()
     ctx.arc(x, y, 21, 0, 360)
     ctx.stroke()
   }
 
-  function drawNumberStation(ctx, x, y, stationId, fillColor) {
+  function drawNumberStation(ctx, x, y, stationId, fillColor, available) {
     ctx.roundRect((x - 23), (y - 12.5), 46, 25, 5)
-    ctx.strokeStyle = '#000000'
+    ctx.strokeStyle = available ? '#000000' : '#929292'
     ctx.lineWidth = '1.5'
     ctx.fillStyle = fillColor;
     ctx.fill();
     ctx.stroke()
     ctx.font = '600 20px sans-serif'
-    ctx.fillStyle = '#000000';
+    ctx.fillStyle = available ? '#000000' : '#929292'
     ctx.textAlign = 'center'
     ctx.fillText(stationId, x, (y + 6.45))
   }
 
-  function drawStation(ctx, station = {}, stationId) {
+
+  function drawStation(ctx, station = {}, stationId, available) {
     let { x, y, subway, taxi, bus } = station
     x *= dimension.w / 1770
     y *= dimension.h / 970
@@ -63,12 +66,12 @@ export function Canvas(props) {
     ctx.fill()
 
 
-    if (taxi) drawTaxiStation(ctx, x, y)
+    if (taxi) drawTaxiStation(ctx, x, y, available)
 
-    if (bus) drawBusStation(ctx, x, y)
+    if (bus) drawBusStation(ctx, x, y, available)
 
     const fillColorNumberStation = subway ? '#92d9ff' : '#FFFFFF'
-    drawNumberStation(ctx, x, y, stationId, fillColorNumberStation)
+    drawNumberStation(ctx, x, y, stationId, fillColorNumberStation, available)
   }
 
   function drawPlayer(ctx, x, y, color) {
@@ -93,6 +96,18 @@ export function Canvas(props) {
   }, [])
 
   useEffect(() => {
+    if (players, canIPlay) {
+      const player = players.find(({ id }) => id === socket.id)
+      const currentIndexPosition = player.position
+      const currentPosition = stations[currentIndexPosition]
+      const availableStations = currentPosition[`${currentVehicle}To`]
+      if(availableStations){
+        setAvailableStations(availableStations)
+      }
+    }
+  }, [players, stations, currentVehicle, canIPlay])
+
+  useEffect(() => {
 
     function draw(ctx) {
       if (canvasImage) {
@@ -101,7 +116,8 @@ export function Canvas(props) {
 
         if (stations && players) {
           stations.forEach((station, stationId) => {
-            drawStation(ctx, station, stationId)
+            const available = availableStations.includes(stationId)
+            drawStation(ctx, station, stationId, available)
           })
           players.forEach(({ position, color, hidden, id }) => {
             let { x, y } = stations[position]
@@ -118,14 +134,13 @@ export function Canvas(props) {
     const canvas = canvasRef.current
     const context = canvas.getContext('2d')
     draw(context)
-  }, [stations, players, canvasImage, dimension])
+  }, [stations, players, canvasImage, dimension, availableStations])
 
   function getMouseClick(event) {
     const canvas = event.target
     const size = canvas.getBoundingClientRect()
     const x = (event.clientX - size.left)
     const y = (event.clientY - size.top)
-    console.log(x, y)
     return { x, y }
   }
 
@@ -144,7 +159,6 @@ export function Canvas(props) {
         break
       }
     }
-    console.log(clickedStation)
     return clickedStation
   }
 
@@ -170,22 +184,21 @@ export function Canvas(props) {
     const click = getMouseClick(event)
     const clickedStation = getStationClicked(click)
     const player = players.find(({ id }) => id === socket.id)
-    const currentIndexPosition = player.position
-    const currentPosition = stations[currentIndexPosition]
-    const availablesStations = currentPosition[`${currentVehicle}To`]
-    if (!availablesStations || !clickedStation) {
+    if (!availableStations || !clickedStation) {
       return false
     }
-    if (availablesStations && availablesStations.includes(clickedStation.id)) {
+    if (availableStations && availableStations.includes(clickedStation.id)) {
       changePlayerPosition(player.id, clickedStation.id)
+      setCurrentVehicle()
+      setAvailableStations([])
     }
   }
 
   function handleResize() {
     let w = window.innerWidth
-    if(w > 1750){
+    if (w > 1750) {
       w = 1750
-    } else if(w < 1400){
+    } else if (w < 1400) {
       w = 1400
     }
 
