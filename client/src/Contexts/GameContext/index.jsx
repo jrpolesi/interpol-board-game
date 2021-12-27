@@ -68,19 +68,16 @@ function GameProvider(props) {
     if (socket) {
       socket.on('preferences', (preferences) => {
         if (currentPreferences) {
-          console.log('update')
           setColorsAndTypesAvailable({
             color: [currentPreferences.color, ...preferences.color],
             type: [currentPreferences.type, ...preferences.type]
           })
         } else {
-          console.log('new')
           const color = preferences.color[0]
           const type = preferences.type[0]
           setCurrentPreferences({ color, type })
           setColorsAndTypesAvailable(preferences)
         }
-        console.log({ preferences })
       })
       return () => { socket.off('preferences')}
     }
@@ -89,7 +86,6 @@ function GameProvider(props) {
 
   useEffect(() => {
     if (socket && currentPreferences) {
-      console.log(currentPreferences)
       socket.emit('player-change-preferences', room, currentPreferences)
     }
   }, [socket, currentPreferences])

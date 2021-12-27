@@ -48,7 +48,7 @@ export function FormNewPlayer() {
     const number = type.slice(-1)
     return type.includes('police') ? `policia ${number}` : 'ladrão'
   }
-console.log(currentPreferences, colorsAndTypesAvailable)
+  
   return (
     <Container onSubmit={toggleAmIReady} className='userPreferences'>
       {colorsAndTypesAvailable && currentPreferences && <>
