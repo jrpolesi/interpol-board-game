@@ -10,6 +10,7 @@ export const Container = styled.div`
     width: 100vw;
     height: 100vh;
     background-color: ${themes.color.background_modal};
+    z-index:1;
   }
 
   >section{
@@ -20,10 +21,10 @@ export const Container = styled.div`
     background-color: white;
     border-radius: 20px;
     box-shadow: 3px 3px 10px 1px ${themes.color.background_modal};
-    width: 90%;
-    max-width: 400px;
+    max-width: 60%;
+    width: 400px;
     padding: 50px;
-    z-index: 1;
+    z-index: 2;
 
     h2{
       margin-bottom: 20px;
