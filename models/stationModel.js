@@ -286,4 +286,4 @@ const stations = [
   { taxi: true, x: 1444, y: 30, taxiTo: [7, 31] },
 ];
 
-module.exports = { stations };
+module.exports = { stations }
