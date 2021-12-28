@@ -2,12 +2,6 @@ import styled from 'styled-components'
 import { themes } from '../../themes/themes'
 
 export const Container = styled.div`
-  position: absolute;
-  transform: translateX(-50%);
-  left: 50%;
-  top: 0;
-  width: fit-content;
-  margin: auto;
   display: flex;
   gap: 5px;
 
