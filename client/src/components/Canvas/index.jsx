@@ -18,74 +18,11 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, width, height, ra
 }
 
 export function Canvas(props) {
-  const { stations, currentVehicle,setCurrentVehicle, socket, room, players, canIPlay } = useContext(GameContext)
+  const { stations, currentVehicle, setCurrentVehicle, socket, room, players, canIPlay } = useContext(GameContext)
   const [canvasImage, setCanvasImage] = useState()
   const [dimension, setDimension] = useState({ w: 1770, h: 970 })
   const [availableStations, setAvailableStations] = useState([])
   const canvasRef = useRef(null)
-
-  function drawBusStation(ctx, x, y, available) {
-    ctx.strokeStyle = available ? '#ff0000' : '#e96f6f'
-    ctx.lineWidth = '2'
-    ctx.beginPath()
-    ctx.arc((x - .15), (y - .15), 24, 0, 360)
-    ctx.fill()
-    ctx.stroke()
-  }
-
-  function drawTaxiStation(ctx, x, y, available) {
-    ctx.strokeStyle = available ? '#000000' : '#929292'
-    ctx.lineWidth = '3'
-    ctx.beginPath()
-    ctx.arc(x, y, 21, 0, 360)
-    ctx.stroke()
-  }
-
-  function drawNumberStation(ctx, x, y, stationId, fillColor, available) {
-    ctx.roundRect((x - 23), (y - 12.5), 46, 25, 5)
-    ctx.strokeStyle = available ? '#000000' : '#929292'
-    ctx.lineWidth = '1.5'
-    ctx.fillStyle = fillColor;
-    ctx.fill();
-    ctx.stroke()
-    ctx.font = '600 20px sans-serif'
-    ctx.fillStyle = available ? '#000000' : '#929292'
-    ctx.textAlign = 'center'
-    ctx.fillText(stationId, x, (y + 6.45))
-  }
-
-
-  function drawStation(ctx, station = {}, stationId, available) {
-    let { x, y, subway, taxi, bus } = station
-    x *= dimension.w / 1770
-    y *= dimension.h / 970
-
-    ctx.fillStyle = '#FFFFFF'
-    ctx.beginPath()
-    ctx.arc(x, y, 19, 0, 360)
-    ctx.fill()
-
-
-    if (taxi) drawTaxiStation(ctx, x, y, available)
-
-    if (bus) drawBusStation(ctx, x, y, available)
-
-    const fillColorNumberStation = subway ? '#92d9ff' : '#FFFFFF'
-    drawNumberStation(ctx, x, y, stationId, fillColorNumberStation, available)
-  }
-
-  function drawPlayer(ctx, x, y, color) {
-    ctx.strokeStyle = color
-    ctx.lineWidth = '6'
-    ctx.beginPath()
-    ctx.arc(x, (y - 1), 15, 0, 360)
-    ctx.stroke()
-    ctx.lineWidth = '4'
-    ctx.beginPath()
-    ctx.arc(x, (y - 1), 28, 0, 360)
-    ctx.stroke()
-  }
-
 
   useEffect(() => {
     const image = new Image();
@@ -96,18 +33,82 @@ export function Canvas(props) {
   }, [])
 
   useEffect(() => {
-    if (players, canIPlay) {
+    if (players && canIPlay) {
       const player = players.find(({ id }) => id === socket.id)
-      const currentIndexPosition = player.position
-      const currentPosition = stations[currentIndexPosition]
-      const availableStations = currentPosition[`${currentVehicle}To`]
-      if(availableStations){
-        setAvailableStations(availableStations)
+      if (player) {
+        const currentIndexPosition = player.position
+        const currentPosition = stations[currentIndexPosition]
+        const availableStations = currentPosition[`${currentVehicle}To`]
+        if (availableStations) {
+          setAvailableStations(availableStations)
+        }
       }
     }
-  }, [players, stations, currentVehicle, canIPlay])
+  }, [players, stations, currentVehicle, canIPlay, socket])
 
   useEffect(() => {
+
+    function drawBusStation(ctx, x, y, available) {
+      ctx.strokeStyle = available ? '#ff0000' : '#e96f6f'
+      ctx.lineWidth = '2'
+      ctx.beginPath()
+      ctx.arc((x - .15), (y - .15), 24, 0, 360)
+      ctx.fill()
+      ctx.stroke()
+    }
+
+    function drawTaxiStation(ctx, x, y, available) {
+      ctx.strokeStyle = available ? '#000000' : '#929292'
+      ctx.lineWidth = '3'
+      ctx.beginPath()
+      ctx.arc(x, y, 21, 0, 360)
+      ctx.stroke()
+    }
+
+    function drawNumberStation(ctx, x, y, stationId, fillColor, available) {
+      ctx.roundRect((x - 23), (y - 12.5), 46, 25, 5)
+      ctx.strokeStyle = available ? '#000000' : '#929292'
+      ctx.lineWidth = '1.5'
+      ctx.fillStyle = fillColor;
+      ctx.fill();
+      ctx.stroke()
+      ctx.font = '600 20px sans-serif'
+      ctx.fillStyle = available ? '#000000' : '#929292'
+      ctx.textAlign = 'center'
+      ctx.fillText(stationId, x, (y + 6.45))
+    }
+
+
+    function drawStation(ctx, station = {}, stationId, available) {
+      let { x, y, subway, taxi, bus } = station
+      x *= dimension.w / 1770
+      y *= dimension.h / 970
+
+      ctx.fillStyle = '#FFFFFF'
+      ctx.beginPath()
+      ctx.arc(x, y, 19, 0, 360)
+      ctx.fill()
+
+
+      if (taxi) drawTaxiStation(ctx, x, y, available)
+
+      if (bus) drawBusStation(ctx, x, y, available)
+
+      const fillColorNumberStation = subway ? '#92d9ff' : '#FFFFFF'
+      drawNumberStation(ctx, x, y, stationId, fillColorNumberStation, available)
+    }
+
+    function drawPlayer(ctx, x, y, color) {
+      ctx.strokeStyle = color
+      ctx.lineWidth = '6'
+      ctx.beginPath()
+      ctx.arc(x, (y - 1), 15, 0, 360)
+      ctx.stroke()
+      ctx.lineWidth = '4'
+      ctx.beginPath()
+      ctx.arc(x, (y - 1), 28, 0, 360)
+      ctx.stroke()
+    }
 
     function draw(ctx) {
       if (canvasImage) {
@@ -134,7 +135,7 @@ export function Canvas(props) {
     const canvas = canvasRef.current
     const context = canvas.getContext('2d')
     draw(context)
-  }, [stations, players, canvasImage, dimension, availableStations])
+  }, [socket, stations, players, canvasImage, dimension, availableStations])
 
   function getMouseClick(event) {
     const canvas = event.target
