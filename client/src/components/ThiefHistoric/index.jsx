@@ -17,7 +17,7 @@ export function ThiefHistoric() {
         className={showList ? 'up' : ''}>
         Histórico do ladrão
       </h3>
-      {showList &&
+      {showList && thiefMovements &&
         <ul>
           {thiefMovements.map(({ round, vehicle }) => (
             <li key={round}>

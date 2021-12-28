@@ -38,15 +38,17 @@ export function TransportsButtons() {
   useEffect(() => {
     if (amIReady && players && stations) {
       const player = players.find(({ id }) => id === socket.id)
-      const { taxiTo, barcoTo, onibusTo, metroTo } = stations[player.position]
-      setButtons([
-        // { name: 'Barco', disabled: !barcoTo, currentVehicle: false },
-        { name: 'Metro', disabled: !metroTo, currentVehicle: false },
-        { name: 'Onibus', disabled: !onibusTo, currentVehicle: false },
-        { name: 'Taxi', disabled: !taxiTo, currentVehicle: false }
-      ])
+      if(player){
+        const { taxiTo, barcoTo, onibusTo, metroTo } = stations[player.position]
+        setButtons([
+          // { name: 'Barco', disabled: !barcoTo, currentVehicle: false },
+          { name: 'Metro', disabled: !metroTo, currentVehicle: false },
+          { name: 'Onibus', disabled: !onibusTo, currentVehicle: false },
+          { name: 'Taxi', disabled: !taxiTo, currentVehicle: false }
+        ])
+      }
     }
-  }, [players, amIReady])
+  }, [players, amIReady, stations, socket])
   return (
     <Container >
       {

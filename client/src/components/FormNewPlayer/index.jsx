@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { GameContext } from '../../Contexts/GameContext'
 import { Container } from './style'
 
 
 export function FormNewPlayer() {
-  const { colorsAndTypesAvailable, setColorsAndTypesAvailable, setAmIReady, socket, room, currentPreferences, setCurrentPreferences } = useContext(GameContext)
+  const { colorsAndTypesAvailable, setAmIReady, currentPreferences, setCurrentPreferences } = useContext(GameContext)
 
 
   function toggleAmIReady(event) {
@@ -48,7 +48,7 @@ export function FormNewPlayer() {
     const number = type.slice(-1)
     return type.includes('police') ? `policia ${number}` : 'ladrão'
   }
-  
+
   return (
     <Container onSubmit={toggleAmIReady} className='userPreferences'>
       {colorsAndTypesAvailable && currentPreferences && <>
