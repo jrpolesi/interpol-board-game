@@ -6,6 +6,7 @@ export function CarAnimation() {
   return (
     <Container>
       <div className='car__siren'></div>
+      <div className='car__headlight'></div>
       <div className='car__block'>
         <div className='car__ceil'>
           <div className='car__front'></div>

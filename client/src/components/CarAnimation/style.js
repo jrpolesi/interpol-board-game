@@ -12,30 +12,30 @@ const car_toRight = keyframes`
 const siren_blueToRed = keyframes`
   0%{
     background-color: blue;
-    box-shadow: -5px 0px 10px 5px #0000ff40;
+    box-shadow: -5px 0px 20px 5px #0000ff80;
   }
   70%{
     background-color: red;
-    box-shadow: -5px 0px 10px 5px #ff000040;
+    box-shadow: -5px 0px 20px 5px #ff000080;
   }
   100%{
     background-color: blue;
-    box-shadow: -5px 0px 10px 1px #0000ff40; 
+    box-shadow: -5px 0px 20px 1px #0000ff80; 
   }
 `
 
 const siren_redToBlue = keyframes`
   0%{
     background-color: red;
-    box-shadow: 5px 0px 10px 1px #ff000040; 
+    box-shadow: 5px 0px 20px 1px #ff000080; 
   }
   50%{
     background-color: blue;
-    box-shadow: 5px 0px 10px 5px #0000ff40;
+    box-shadow: 5px 0px 20px 5px #0000ff80;
   }
   100%{
     background-color: red;
-    box-shadow: 5px 0px 10px 1px #ff000040; 
+    box-shadow: 5px 0px 20px 1px #ff000080; 
   }
 `
 
@@ -47,10 +47,12 @@ export const Container = styled.div`
   width: 300px;
   margin: 130px 0 0 0;
   animation: ${car_toRight} 3s cubic-bezier(.71,.24,.54,.89) infinite;
+
     .car__siren{
       position: absolute;
       bottom: 193px;
       left: 100px;
+
       &::before{
         content: '';
         position: absolute;
@@ -59,6 +61,7 @@ export const Container = styled.div`
         border-radius: 15px 0 0 15px;
         animation: ${siren_blueToRed} 1s infinite;
       }
+
       &::after{
         content: '';
         position: absolute;
@@ -69,15 +72,46 @@ export const Container = styled.div`
         animation: ${siren_redToBlue} 1s infinite;
       }
     }
+
+    .car__headlight{
+      position: absolute;
+      bottom: 65px;
+      left: -3px;
+      display: flex;
+      gap: 270px;
+      z-index: 1;
+
+      &::before{
+        content: '';
+        width: 18px;
+        height: 25px;
+        border-radius: 105%;
+        background-color: red;
+        align-self: flex-end;
+        filter: drop-shadow(-8px 0 8px red);
+      }
+
+      &::after{
+        content: '';
+        width: 18px;
+        height: 30px;
+        border-radius: 105%;
+        background-color: #ffe400;
+        filter: drop-shadow(12px 0 8px yellow);
+      }
+    }
+
     .car__block{
       position: absolute;
       bottom: 40px;
       left: 0px;
+
       .car__ceil{
         position: absolute;
         bottom: 20px;
         left: 50px;
         width: 120px;
+
         .car__back{
           position: absolute;
           bottom:0;
@@ -87,6 +121,7 @@ export const Container = styled.div`
           border-radius: 10px;
           transform: rotate(10deg);
         }
+
         .car__middle{
           position: absolute;
           bottom: 10px;
@@ -96,6 +131,7 @@ export const Container = styled.div`
           background-color: #dcdcdc;
           border-radius: 10px;
         }
+
         .car__front{
           position: absolute;
           bottom: 5px;
@@ -106,11 +142,13 @@ export const Container = styled.div`
           border-radius: 10px;
           transform: rotate(60deg);
         }
+
         .car__window{
         position: absolute;
         bottom: 10px;
         left: 15px;
         width: 120px;
+
           .car__window--back{
             position: absolute;
             bottom: 3px;
@@ -120,6 +158,7 @@ export const Container = styled.div`
             border-radius: 10px 80% 0 0;
             transform: rotate(10deg);
           }
+
           .car__window--middle{
             position: absolute;
             bottom: -12px;
@@ -129,6 +168,7 @@ export const Container = styled.div`
             background-color: #0000ff40;
             border-radius: 10px 30px 155%;
           }
+
           .car__window--front{
             position: absolute;
             bottom: 18px;
@@ -139,6 +179,7 @@ export const Container = styled.div`
             border-radius: 10px 0 0 100%;
             transform: rotate(60deg);
           }
+
           .car__window--division{
             position: absolute;
             bottom: 20px;
@@ -150,11 +191,13 @@ export const Container = styled.div`
           }
         }
       }
+
     .car__floor{
       position: absolute;
       bottom: 30px;
       left: 30px;
       width: 250px;
+
       .car__paint--lightFloor{
         position: absolute;
         bottom: -20px;
@@ -165,6 +208,7 @@ export const Container = styled.div`
         border-radius: 40px 40px 0 0;
         transform: scaleY(0.7);
       }
+
       .car__paint--darkFloor{
         position: absolute;
         bottom: -40px;
@@ -177,6 +221,7 @@ export const Container = styled.div`
       }
     }
   }
+
   .car__wheels{
     position: absolute;
     left: 30px;
@@ -185,6 +230,7 @@ export const Container = styled.div`
     margin: 0 auto;
     display: flex;
     gap: 85px;
+
     .car__wheel{
       position: relative;
       width: 60px;
@@ -192,6 +238,7 @@ export const Container = styled.div`
       border-radius: 50%;
       background-color: black;
       border: 8px solid white;
+      
       &::after{
         content: '';
         position: absolute;
