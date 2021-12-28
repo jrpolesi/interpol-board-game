@@ -68,7 +68,9 @@ io.on('connection', (socket) => {
 
   socket.on('am-i-ready', (roomId, isReady) => {
     const user = roomsController.getUser(roomId, socket.id)
-    user.isReady = isReady
+    if(user){
+      user.isReady = isReady
+    }
     io.to(roomId).emit('are-everyone-ready', roomsController.isEveryoneReady(roomId))
     if (isReady) {
       const game = roomsController.getGame(roomId)
