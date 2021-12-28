@@ -13,7 +13,7 @@ export function TransportsButtons() {
 
   function handleClick(event) {
 
-    const vehicle = event.target.innerText
+    const vehicle = event.currentTarget.innerText
     setButtons((prevState) => {
       return prevState.map(({ name, currentVehicle, ...rest }) => {
         if (name === vehicle) {

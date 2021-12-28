@@ -1,10 +1,9 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+  position: relative;
   overflow: auto;
-  position: absolute;
-  top: 10px;
-  left: 50%;
   width: 100vw;
-  transform: translateX(-50%);
+  max-width: 1750px;
+  margin: auto;
 `
