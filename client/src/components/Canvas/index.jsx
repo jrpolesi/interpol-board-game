@@ -53,7 +53,6 @@ export function Canvas(props) {
       ctx.lineWidth = '2'
       ctx.beginPath()
       ctx.arc((x - .15), (y - .15), 24, 0, 360)
-      ctx.fill()
       ctx.stroke()
     }
 
