@@ -45,11 +45,11 @@ export const Container = styled.div`
   position: relative;
   height: 150px;
   width: 300px;
-  margin: 100px 0 0 0;
+  margin: 130px 0 0 0;
   animation: ${car_toRight} 3s cubic-bezier(.71,.24,.54,.89) infinite;
     .car__siren{
       position: absolute;
-      bottom: 155px;
+      bottom: 193px;
       left: 100px;
       &::before{
         content: '';
@@ -71,7 +71,7 @@ export const Container = styled.div`
     }
     .car__block{
       position: absolute;
-      bottom: 0;
+      bottom: 40px;
       left: 0px;
       .car__ceil{
         position: absolute;
@@ -180,7 +180,7 @@ export const Container = styled.div`
   .car__wheels{
     position: absolute;
     left: 30px;
-    bottom: -40px;
+    bottom: 0;
     width: fit-content;
     margin: 0 auto;
     display: flex;
