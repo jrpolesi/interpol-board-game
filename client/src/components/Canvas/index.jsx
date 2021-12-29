@@ -1,8 +1,10 @@
 import React, { useRef, useEffect, useContext, useState } from 'react'
-import { GameContext } from '../../Contexts/GameContext'
-import backgroundCanvas from '../../assets/images/game-board.jpg'
 import { Container } from './style'
+import { GameContext } from '../../Contexts/GameContext'
 import { ThiefHistoric } from '../ThiefHistoric'
+import backgroundCanvas from '../../assets/images/game-board.jpg'
+import ambienceSound from '../../assets/sounds/ambience0.mp3'
+import policeBeep from '../../assets/sounds/police_beep.mp3'
 
 CanvasRenderingContext2D.prototype.roundRect = function (x, y, width, height, radius) {
   if (width < 2 * radius) radius = width / 2;
@@ -30,7 +32,26 @@ export function Canvas(props) {
     image.onload = function () {
       setCanvasImage(image)
     }
+    
+
+    const audio = new Audio()
+
+    audio.src = ambienceSound
+
+    audio.play()
+    audio.loop = true
+    audio.volume = .4
+
   }, [])
+
+  useEffect(() => {
+    if(canIPlay){
+      const audio = new Audio()
+      audio.src = policeBeep
+      audio.volume = .6
+      audio.play()
+    }
+  }, [canIPlay])
 
   useEffect(() => {
     if (players && canIPlay) {
